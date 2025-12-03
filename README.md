@@ -1,23 +1,21 @@
-# Memento Mori Life Calendar - Obsidian Plugin
+# Memento Mori - Obsidian Plugin
 
 Visualize your life in weeks with a beautiful, interactive life calendar. This plugin brings the powerful memento mori concept to Obsidian, helping you stay mindful of time and focused on what truly matters.
 
 ## Features
 
 - **Life Grid Visualization**: See your entire life laid out as a grid of weeks (52 weeks × N years)
-- **Current Week Highlighting**: Your current week is highlighted in a distinct color
-- **Events Tracking**: Mark important life events with colored markers
-- **Goals & Projects**: Track multi-week goals and projects with colored bands
-- **Statistics Panel**: View your age, weeks lived/remaining, and current year progress
-- **6 Built-in Themes**: Choose from warm, cool, mono themes (plus dark variants)
-- **Extensive Customization**: 40+ settings to personalize your calendar
-- **Dual Display Modes**:
-  - **Custom View Panel**: Dedicated pane (like graph view) for persistent display
-  - **Code Block Rendering**: Embed calendars in your markdown notes
+- **Weekly Statistics**: Hover tooltips show notes created and words written per week
+- **Interactive Tooltips**: View events, goals, and statistics on hover
+- **Events & Goals Tracking**: Mark important dates and multi-week projects
+- **Simplified Input UI**: Inline row-based event/goal management with optional notes
+- **Obsidian Theme Integration**: Colors adapt to your theme automatically
+- **Dual Display Modes**: Custom view panel or embedded code blocks
+- **Lucide Icons**: Clean, modern UI with official Obsidian icons
 
 ## Installation
 
-### From Obsidian Community Plugins (Coming Soon)
+### From Obsidian Community Plugins
 
 1. Open Settings → Community Plugins
 2. Search for "Memento Mori"
@@ -25,88 +23,49 @@ Visualize your life in weeks with a beautiful, interactive life calendar. This p
 
 ### Manual Installation
 
-1. Download the latest release files:
-   - `main.js`
-   - `manifest.json`
-   - `styles.css`
+1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/dadaev732/memento-mori/releases)
 2. Create folder: `<vault>/.obsidian/plugins/memento-mori/`
 3. Copy the files into this folder
-4. Reload Obsidian
-5. Enable the plugin in Settings → Community Plugins
+4. Reload Obsidian and enable the plugin in Settings → Community Plugins
 
 ## Quick Start
 
-1. **Set your birthdate**: Go to Settings → Memento Mori → Core Settings
-2. **Open the view**: Click the calendar icon in the ribbon, or use command palette: "Open Memento Mori view"
-3. **Customize**: Adjust colors, themes, and features to your liking
+1. **Set your birthdate**: Settings → Memento Mori → Birthdate (YYYY-MM-DD format)
+2. **Open the view**: Click the calendar icon in ribbon or use command palette: "Open Memento Mori view"
+3. **Add events/goals**: Use the settings panel to track important dates and projects
 
 ## Usage
 
 ### Custom View Panel
 
 Open a dedicated panel to display your life calendar:
-
 - **Ribbon Icon**: Click the calendar-clock icon
-- **Command Palette**: Search for "Open Memento Mori view"
-- **Command**: `Ctrl/Cmd+P` → "Memento Mori: Open view"
+- **Command Palette**: `Ctrl/Cmd+P` → "Open Memento Mori view"
 
 The view can be placed in any pane (left sidebar, right sidebar, or main workspace).
 
 ### Code Block Rendering
 
-Embed a life calendar in any markdown note using a code block:
+Embed a life calendar in any markdown note:
 
 ````markdown
 ```memento-mori
 birthdate: 1990-01-01
 years: 80
-theme: warm-dark
 showStats: true
-highlightCurrentYear: true
 events:
   - 2010-06-15:Graduated High School
   - 2020-03-15:Started Dream Job
 goals:
   - 2024-01-01:2024-12-31:Learn TypeScript
-  - 2025-01-01:2025-06-30:Build Obsidian Plugin
 ```
 ````
-
-### Event Format
-
-Events mark specific dates:
-
-```
-YYYY-MM-DD:Description
-```
-
-Example:
-```
-2010-06-15:Graduated High School
-2018-05-20:College Graduation
-2020-03-15:Started Dream Job
-```
-
-### Goal Format
-
-Goals mark multi-week periods:
-
-```
-START_DATE:END_DATE:Description
-```
-
-Example:
-```
-2024-01-01:2024-12-31:Learn TypeScript
-2025-01-01:2025-06-30:Build Obsidian Plugin
-2025-07-01:2026-12-31:Deep Research Project
-```
 
 ## Settings
 
 ### Core Settings
 
-- **Birthdate** (required): Your date of birth (YYYY-MM-DD)
+- **Birthdate** (required): Your date of birth in YYYY-MM-DD format
 - **Years to display**: Number of years to show in the grid (default: 80)
 
 ### Layout
@@ -114,58 +73,46 @@ Example:
 - **Box size**: Size of each week box in pixels (5-20)
 - **Spacing**: Space between boxes (0-10 pixels)
 - **Margin**: Margin around the entire grid
-
-### Grouping
-
-- **Years per group**: Add gaps every N years for readability (default: 5)
-- **Vertical gap size**: Size of gaps between year groups
-- **Horizontal segments**: Divide each year row into segments
-- **Horizontal gap size**: Size of gaps between week segments
-
-### Themes
-
-Choose from 6 built-in color themes:
-
-- **warm**: Beige background, orange filled boxes
-- **cool**: Light blue background, blue filled boxes
-- **mono**: High contrast black and white
-- **warm-dark**: Dark brown background, orange boxes
-- **cool-dark**: Dark blue/gray background, blue boxes
-- **mono-dark**: Inverted black and white
-
-Or customize all colors individually.
-
-### Colors
-
-Fine-tune every color:
-- Background color
-- Filled boxes (weeks lived)
-- Empty boxes (weeks not yet lived)
-- Last week (current week)
-- Text color
-- Current year background
-- Bonus years background (beyond life expectancy)
-- Event markers
-- Goal markers
-- Life expectancy line
+- **Years per group**: Add visual gaps every N years for readability (default: 5)
 
 ### Features
 
 - **Show statistics**: Display panel with age, weeks lived/remaining
+- **Show weekly stats**: Display notes created and words written in hover tooltips
 - **Highlight current year**: Highlight your current age row
-- **Show start/end labels**: Add "Start" and "Fin." labels
-- **Shade bonus years**: Shade years beyond life expectancy
-- **Expected lifespan**: Draw a line at expected age (e.g., 75)
+- **Expected lifespan**: Draw a line at expected age (e.g., 75 years)
 
-### Font Sizes
+### Colors
 
-- **Font size multiplier**: Base font size for labels (relative to box size)
-- **Stats font multiplier**: Font size for statistics panel
-- **Notes font multiplier**: Font size for events/goals notes
+The plugin integrates with your Obsidian theme using CSS variables:
+- Adapts to light/dark themes automatically
+- Customize individual colors in settings (background, filled boxes, empty boxes, current week, etc.)
+- Override colors per code block for custom styling
 
-## Code Block Configuration
+## Event & Goal Format
 
-All settings can be overridden in code blocks. Common examples:
+### Events
+
+Events mark specific dates. In settings UI, use the inline row editor with:
+- **Title** (required): Event name
+- **Date** (required): YYYY-MM-DD format
+- **Notes** (optional): Additional details
+
+In code blocks, use the string format:
+```
+2010-06-15:Graduated High School
+2018-05-20:College Graduation
+```
+
+### Goals
+
+Goals mark multi-week periods:
+```
+2024-01-01:2024-12-31:Learn TypeScript
+2025-01-01:2025-06-30:Build Obsidian Plugin
+```
+
+## Code Block Examples
 
 ### Simple Calendar
 
@@ -175,53 +122,20 @@ birthdate: 1990-01-01
 ```
 ````
 
-### With Theme and Stats
+### With Events
 
 ````markdown
 ```memento-mori
 birthdate: 1990-01-01
 years: 80
-theme: cool-dark
 showStats: true
-```
-````
-
-### Full Configuration
-
-````markdown
-```memento-mori
-birthdate: 1990-01-01
-years: 80
-boxSize: 12
-spacing: 3
-theme: warm-dark
-showStats: true
-highlightCurrentYear: true
-expectedYears: 75
-shadeBonusYears: true
 events:
   - 2010-06-15:Graduated High School
-  - 2014-05-20:College Graduation
   - 2020-03-15:Started Dream Job
 goals:
   - 2024-01-01:2024-12-31:Learn TypeScript
-  - 2025-01-01:2025-06-30:Build Plugin
 ```
 ````
-
-## Tips & Tricks
-
-1. **Use themes for quick styling**: Start with a built-in theme, then customize specific colors
-2. **Combine with daily notes**: Add a code block to your daily note template
-3. **Track long-term projects**: Use goals to visualize multi-month or multi-year commitments
-4. **Life expectancy line**: Set your target lifespan to visualize bonus years
-5. **Current year highlighting**: Keep it enabled to quickly see where you are now
-6. **Adjust box size**: Larger boxes (15-20px) work well for detailed viewing; smaller (5-8px) fit more on screen
-
-## Keyboard Shortcuts
-
-- **Open Memento Mori view**: `Ctrl/Cmd+P` → "Open Memento Mori view"
-- **Refresh view**: `Ctrl/Cmd+P` → "Refresh Memento Mori view"
 
 ## Philosophy
 
@@ -232,27 +146,14 @@ The concept of "memento mori" (Latin for "remember you must die") is an ancient 
 - **Track progress**: Mark achievements and ongoing projects
 - **Live intentionally**: Focus on what truly matters
 
-## Credits
-
-This plugin is inspired by the excellent Python-based memento-mori wallpaper generator. The core calculation and rendering logic has been faithfully ported to TypeScript for seamless Obsidian integration.
-
-## License
-
-MIT License - See LICENSE file for details
-
-## Support
-
-- **Issues**: Report bugs at [GitHub Issues](https://github.com/yourusername/memento-mori-plugin/issues)
-- **Discussions**: Share ideas and get help in [GitHub Discussions](https://github.com/yourusername/memento-mori-plugin/discussions)
-
 ## Development
 
 ### Building from Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/memento-mori-plugin.git
-cd memento-mori-plugin
+git clone https://github.com/dadaev732/memento-mori.git
+cd memento-mori
 
 # Install dependencies
 npm install
@@ -264,35 +165,20 @@ npm run build
 npm run dev
 ```
 
-### Project Structure
+The build outputs `main.js` and `styles.css` to the project root. Copy these files to your vault's plugin folder for testing.
 
-```
-memento-mori-plugin/
-├── main.ts              # Plugin entry point
-├── src/
-│   ├── types.ts         # TypeScript interfaces
-│   ├── calculations.ts  # Date/week calculations
-│   ├── parser.ts        # Event/goal parsing
-│   ├── themes.ts        # Theme definitions
-│   ├── rendering.ts     # SVG generation engine
-│   ├── settings.ts      # Settings management
-│   ├── view.ts          # Custom ItemView
-│   └── codeblock.ts     # Code block processor
-├── styles.css           # Plugin styles
-└── manifest.json        # Plugin metadata
-```
+## Support
 
-## Changelog
+- **Issues**: Report bugs at [GitHub Issues](https://github.com/dadaev732/memento-mori/issues)
+- **Discussions**: Share ideas and get help in [GitHub Discussions](https://github.com/dadaev732/memento-mori/discussions)
 
-### 1.0.0 (Initial Release)
+## License
 
-- Full-featured life calendar visualization
-- Custom view panel and code block rendering
-- 6 built-in themes
-- Comprehensive customization (40+ settings)
-- Events and goals tracking
-- Statistics panel
-- SVG-based rendering for crisp, scalable graphics
+MIT License - See LICENSE file for details
+
+## Credits
+
+Created by [avicenna](https://github.com/dadaev732). Inspired by the memento mori wallpaper generator concept, faithfully ported to TypeScript for Obsidian integration.
 
 ---
 
