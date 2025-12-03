@@ -2,6 +2,8 @@
 
 Visualize your life in weeks with a beautiful, interactive life calendar. This plugin brings the powerful memento mori concept to Obsidian, helping you stay mindful of time and focused on what truly matters.
 
+![Memento Mori Calendar](assets/screenshot.png)
+
 ## Features
 
 - Visualize your entire life as a grid of weeks (52 weeks × N years)
