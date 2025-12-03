@@ -26,20 +26,12 @@ export function calculateGridDimensions(
     gaps: GapConfig
 ): GridDimensions {
     // Vertical gaps (year grouping)
-    const numGapsV = gaps.yearsPerGroup > 0
-        ? Math.floor(years / gaps.yearsPerGroup)
-        : 0;
-    const vertGapSize = gaps.verticalGapSize >= 0
-        ? gaps.verticalGapSize
-        : boxSize;
+    const numGapsV = gaps.yearsPerGroup > 0 ? Math.floor(years / gaps.yearsPerGroup) : 0;
+    const vertGapSize = gaps.verticalGapSize >= 0 ? gaps.verticalGapSize : boxSize;
 
     // Horizontal gaps (week segments)
-    const numGapsH = gaps.horizontalParts > 1
-        ? gaps.horizontalParts - 1
-        : 0;
-    const horizGapSize = gaps.horizontalGapSize >= 0
-        ? gaps.horizontalGapSize
-        : boxSize;
+    const numGapsH = gaps.horizontalParts > 1 ? gaps.horizontalParts - 1 : 0;
+    const horizGapSize = gaps.horizontalGapSize >= 0 ? gaps.horizontalGapSize : boxSize;
 
     // Calculate dimensions
     const gridWidthCore = 52 * boxSize + 51 * spacing + numGapsH * horizGapSize;
@@ -75,9 +67,7 @@ export function getRowY(
     vertGapSize: number,
     yearsPerGroup: number
 ): number {
-    const gapsBefore = yearsPerGroup > 0
-        ? Math.floor(row / yearsPerGroup)
-        : 0;
+    const gapsBefore = yearsPerGroup > 0 ? Math.floor(row / yearsPerGroup) : 0;
     return row * (boxSize + spacing) + gapsBefore * vertGapSize;
 }
 

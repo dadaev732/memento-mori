@@ -33,7 +33,7 @@ export function resolveObsidianColors(): ColorPalette {
         bonusBgColor: getCSSVar(computed, '--background-secondary-alt', '#f9f9f9'),
         eventColor: getCSSVar(computed, '--text-accent', '#7c3aed'),
         goalColor: getCSSVar(computed, '--interactive-accent', '#16a34a'),
-        expectationLineColor: getCSSVar(computed, '--background-modifier-border', '#d1d5db')
+        expectationLineColor: getCSSVar(computed, '--background-modifier-border', '#d1d5db'),
     };
 }
 
@@ -51,7 +51,7 @@ export function getDefaultColors(): ColorPalette {
         bonusBgColor: '#f9f9f9',
         eventColor: '#7c3aed',
         goalColor: '#16a34a',
-        expectationLineColor: '#d1d5db'
+        expectationLineColor: '#d1d5db',
     };
 }
 

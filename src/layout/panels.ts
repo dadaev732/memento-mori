@@ -73,7 +73,7 @@ export function calculateNotesDimensions(
             notesAreaWidth: 0,
             notesPadding: 0,
             notesTextWidth: 0,
-            notesTextHeight: 0
+            notesTextHeight: 0,
         };
     }
 

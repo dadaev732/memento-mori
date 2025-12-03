@@ -22,14 +22,23 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
  * Now uses modular layout functions for better organization
  */
 export function calculateDimensions(config: RenderConfig): Dimensions {
-    const { years, boxSize, spacing, margin, yearsPerGroup, verticalGapSize, horizontalParts, horizontalGapSize } = config;
+    const {
+        years,
+        boxSize,
+        spacing,
+        margin,
+        yearsPerGroup,
+        verticalGapSize,
+        horizontalParts,
+        horizontalGapSize,
+    } = config;
 
     // Create gap configuration
     const gapConfig: GapConfig = {
         yearsPerGroup,
         verticalGapSize,
         horizontalParts,
-        horizontalGapSize
+        horizontalGapSize,
     };
 
     // Calculate grid dimensions using new modules
@@ -111,7 +120,7 @@ export function calculateDimensions(config: RenderConfig): Dimensions {
         fontSizeStats,
         fontSizeNotes,
         statsPanelWidth,
-        statsPanelX
+        statsPanelX,
     };
 }
 
@@ -144,14 +153,17 @@ export function colX0(col: number, dims: Dimensions): number {
         return marginX + col * (boxSize + spacing);
     }
 
-    const gapsBefore = gapPositionsH.filter(gp => gp < col).length;
+    const gapsBefore = gapPositionsH.filter((gp) => gp < col).length;
     return marginX + col * (boxSize + spacing) + gapsBefore * horizontalGapSize;
 }
 
 /**
  * Main SVG generation function
  */
-export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: boolean = true): SVGSVGElement {
+export function generateMementoMoriSVG(
+    config: RenderConfig,
+    useObsidianTheme: boolean = true
+): SVGSVGElement {
     // Resolve colors from Obsidian theme or use default colors
     const colors = useObsidianTheme ? resolveObsidianColors() : getDefaultColors();
 
@@ -185,8 +197,8 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
     // Calculate actual content height based on last element
     const gridEndY = rowY0(config.years - 1, dims, config) + dims.boxSize;
     let actualContentHeight = config.showStartEndLabels
-        ? gridEndY + dims.fontSize * 1.5  // Space for end label (centered) plus small margin
-        : gridEndY;  // No extra space when no end label
+        ? gridEndY + dims.fontSize * 1.5 // Space for end label (centered) plus small margin
+        : gridEndY; // No extra space when no end label
 
     // Add space for stats panel if shown
     if (config.showStats) {
@@ -209,12 +221,16 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
         y: 0,
         width: dims.totalWidth,
         height: actualContentHeight,
-        fill: colors.backgroundColor
+        fill: colors.backgroundColor,
     });
     svg.appendChild(bg);
 
     // Life expectancy line
-    if (config.expectedYears !== null && config.expectedYears > 0 && config.expectedYears < config.years) {
+    if (
+        config.expectedYears !== null &&
+        config.expectedYears > 0 &&
+        config.expectedYears < config.years
+    ) {
         const lineY = rowY0(config.expectedYears, dims, config) - dims.spacing / 2;
         const line = createSVGElement('line', {
             x1: dims.marginX,
@@ -222,15 +238,14 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
             x2: dims.marginX + dims.gridWidthCore,
             y2: lineY,
             stroke: colors.expectationLineColor,
-            'stroke-width': 1
+            'stroke-width': 1,
         });
         svg.appendChild(line);
     }
 
     // Week boxes grid
-    const lastWeekIndexInGrid = config.weeksLived > 0
-        ? Math.min(config.weeksLived - 1, totalWeeks - 1)
-        : -1;
+    const lastWeekIndexInGrid =
+        config.weeksLived > 0 ? Math.min(config.weeksLived - 1, totalWeeks - 1) : -1;
 
     for (let row = 0; row < config.years; row++) {
         const y0Row = rowY0(row, dims, config);
@@ -260,13 +275,20 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
                 y: y0,
                 width: dims.boxSize,
                 height: dims.boxSize,
-                fill: color
+                fill: color,
             });
             box.classList.add('week-box');
             box.setAttribute('data-week', String(index));
 
             // Add custom tooltip handlers
-            attachTooltipHandlers(box, index, totalWeeks, config.weeklyStats, config.parsedEvents, config.parsedGoals);
+            attachTooltipHandlers(
+                box,
+                index,
+                totalWeeks,
+                config.weeklyStats,
+                config.parsedEvents,
+                config.parsedGoals
+            );
 
             svg.appendChild(box);
 
@@ -279,7 +301,7 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
                     height: dims.boxSize,
                     fill: 'none',
                     stroke: colors.goalColor,
-                    'stroke-width': 2
+                    'stroke-width': 2,
                 });
                 goalMarker.classList.add('goal-marker');
                 svg.appendChild(goalMarker);
@@ -294,7 +316,7 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
                     height: dims.boxSize - 2,
                     fill: 'none',
                     stroke: colors.eventColor,
-                    'stroke-width': 1
+                    'stroke-width': 1,
                 });
                 eventMarker.classList.add('event-marker');
                 svg.appendChild(eventMarker);
@@ -305,7 +327,11 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
     // Year group labels (age numbers)
     if (config.yearsPerGroup > 0 && config.years > 0) {
         const xGridRight = dims.marginX + dims.gridWidthCore;
-        const xBase = xGridRight + (dims.labelAreaWidth > 0 ? dims.labelPadding : Math.max(dims.spacing * 2, dims.boxSize / 2));
+        const xBase =
+            xGridRight +
+            (dims.labelAreaWidth > 0
+                ? dims.labelPadding
+                : Math.max(dims.spacing * 2, dims.boxSize / 2));
 
         for (let row = 0; row < config.years; row++) {
             if (row % config.yearsPerGroup === 0) {
@@ -318,7 +344,7 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
                     fill: colors.textColor,
                     'font-size': dims.fontSize,
                     'font-family': 'var(--font-interface)',
-                    'dominant-baseline': 'middle'
+                    'dominant-baseline': 'middle',
                 });
                 text.textContent = String(row);
                 text.classList.add('year-label');
@@ -342,7 +368,7 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
             'font-size': dims.fontSize,
             'font-family': 'var(--font-interface)',
             'text-anchor': 'end',
-            'dominant-baseline': 'middle'
+            'dominant-baseline': 'middle',
         });
         textStart.textContent = config.startLabel;
         textStart.classList.add('start-label');
@@ -358,7 +384,7 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
             'font-size': dims.fontSize,
             'font-family': 'var(--font-interface)',
             'text-anchor': 'end',
-            'dominant-baseline': 'middle'
+            'dominant-baseline': 'middle',
         });
         textEnd.textContent = config.endLabel;
         textEnd.classList.add('end-label');
@@ -388,7 +414,7 @@ export function generateMementoMoriSVG(config: RenderConfig, useObsidianTheme: b
             fill: colors.textColor,
             'font-size': dims.fontSize,
             'font-family': 'var(--font-interface)',
-            'dominant-baseline': 'middle'
+            'dominant-baseline': 'middle',
         });
         statsText.textContent = `Weeks remaining: ${weeksRemaining.toLocaleString()}`;
         statsGroup.appendChild(statsText);

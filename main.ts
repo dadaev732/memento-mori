@@ -22,8 +22,8 @@ function generateId(): string {
  */
 function migrateEventsFromStrings(oldEvents: string[]): Event[] {
     return oldEvents
-        .filter(str => str && str.trim())
-        .map(str => {
+        .filter((str) => str && str.trim())
+        .map((str) => {
             const colonIndex = str.indexOf(':');
             if (colonIndex === -1) return null;
 
@@ -33,7 +33,7 @@ function migrateEventsFromStrings(oldEvents: string[]): Event[] {
             return {
                 id: generateId(),
                 date,
-                title: description
+                title: description,
             };
         })
         .filter((e): e is Event => e !== null && !!e.date && !!e.title);
@@ -44,8 +44,8 @@ function migrateEventsFromStrings(oldEvents: string[]): Event[] {
  */
 function migrateGoalsFromStrings(oldGoals: string[]): Goal[] {
     return oldGoals
-        .filter(str => str && str.trim())
-        .map(str => {
+        .filter((str) => str && str.trim())
+        .map((str) => {
             const parts = str.split(':');
             if (parts.length < 2) return null;
 
@@ -57,7 +57,7 @@ function migrateGoalsFromStrings(oldGoals: string[]): Goal[] {
                 id: generateId(),
                 startDate,
                 endDate,
-                title: description
+                title: description,
             };
         })
         .filter((g): g is Goal => g !== null && !!g.startDate && !!g.endDate);
@@ -67,7 +67,7 @@ function migrateGoalsFromStrings(oldGoals: string[]): Goal[] {
  * Migrate events from description-only to title+notes structure
  */
 function migrateEventsToTitleNotes(events: Event[]): Event[] {
-    return events.map(event => {
+    return events.map((event) => {
         // Skip if already migrated
         if ('title' in event && event.title !== undefined) {
             return event;
@@ -78,7 +78,7 @@ function migrateEventsToTitleNotes(events: Event[]): Event[] {
         return {
             id: event.id,
             date: event.date,
-            title: oldEvent.description || ''
+            title: oldEvent.description || '',
         };
     });
 }
@@ -87,7 +87,7 @@ function migrateEventsToTitleNotes(events: Event[]): Event[] {
  * Migrate goals from description-only to title+notes structure
  */
 function migrateGoalsToTitleNotes(goals: Goal[]): Goal[] {
-    return goals.map(goal => {
+    return goals.map((goal) => {
         // Skip if already migrated
         if ('title' in goal && goal.title !== undefined) {
             return goal;
@@ -99,7 +99,7 @@ function migrateGoalsToTitleNotes(goals: Goal[]): Goal[] {
             id: goal.id,
             startDate: goal.startDate,
             endDate: goal.endDate,
-            title: oldGoal.description || ''
+            title: oldGoal.description || '',
         };
     });
 }
@@ -120,10 +120,7 @@ export default class MementoMoriPlugin extends Plugin {
         }
 
         // Register custom view
-        this.registerView(
-            VIEW_TYPE_MEMENTO_MORI,
-            (leaf) => new MementoMoriView(leaf, this)
-        );
+        this.registerView(VIEW_TYPE_MEMENTO_MORI, (leaf) => new MementoMoriView(leaf, this));
 
         // Register code block processor
         this.registerMarkdownCodeBlockProcessor('memento-mori', (source, el) => {
@@ -136,14 +133,14 @@ export default class MementoMoriPlugin extends Plugin {
         this.addCommand({
             id: 'open-memento-mori-view',
             name: 'Open Memento Mori view',
-            callback: () => this.activateView()
+            callback: () => this.activateView(),
         });
 
         // Add command to refresh view
         this.addCommand({
             id: 'refresh-memento-mori-view',
             name: 'Refresh Memento Mori view',
-            callback: () => this.refreshView()
+            callback: () => this.refreshView(),
         });
 
         // Add ribbon icon
@@ -213,9 +210,16 @@ export default class MementoMoriPlugin extends Plugin {
         }
 
         const deprecatedColorProps = [
-            'backgroundColor', 'filledColor', 'emptyColor', 'lastWeekColor',
-            'textColor', 'currentYearBgColor', 'bonusBgColor', 'eventColor',
-            'goalColor', 'expectationLineColor'
+            'backgroundColor',
+            'filledColor',
+            'emptyColor',
+            'lastWeekColor',
+            'textColor',
+            'currentYearBgColor',
+            'bonusBgColor',
+            'eventColor',
+            'goalColor',
+            'expectationLineColor',
         ];
 
         for (const prop of deprecatedColorProps) {
@@ -226,7 +230,9 @@ export default class MementoMoriPlugin extends Plugin {
         }
 
         const deprecatedFontProps = [
-            'fontSizeMultiplier', 'fontSizeMultiplierStats', 'fontSizeMultiplierNotes'
+            'fontSizeMultiplier',
+            'fontSizeMultiplierStats',
+            'fontSizeMultiplierNotes',
         ];
 
         for (const prop of deprecatedFontProps) {
@@ -277,7 +283,7 @@ export default class MementoMoriPlugin extends Plugin {
             if (leaf) {
                 await leaf.setViewState({
                     type: VIEW_TYPE_MEMENTO_MORI,
-                    active: true
+                    active: true,
                 });
             }
         }
@@ -297,7 +303,7 @@ export default class MementoMoriPlugin extends Plugin {
 
         for (const leaf of leaves) {
             if (leaf.view instanceof MementoMoriView) {
-                leaf.view.onOpen();  // Re-render
+                leaf.view.onOpen(); // Re-render
             }
         }
     }
@@ -372,7 +378,7 @@ export default class MementoMoriPlugin extends Plugin {
         content = content.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
 
         // Split by whitespace and count non-empty tokens
-        const words = content.split(/\s+/).filter(word => word.length > 0);
+        const words = content.split(/\s+/).filter((word) => word.length > 0);
         return words.length;
     }
 }

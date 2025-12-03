@@ -20,6 +20,6 @@ export function calculateFontSizes(boxSize: number): FontSizes {
     return {
         fontSize,
         fontSizeStats: fontSize,
-        fontSizeNotes: fontSize
+        fontSizeNotes: fontSize,
     };
 }

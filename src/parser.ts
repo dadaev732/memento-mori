@@ -13,13 +13,13 @@ export function parseEventSpecs(
     eventObjects: Event[],
     birthdate: Date,
     totalWeeks: number
-): { events: EventInfo[], eventWeeks: Set<number> } {
+): { events: EventInfo[]; eventWeeks: Set<number> } {
     const events: EventInfo[] = [];
     const weeks: Set<number> = new Set();
 
     for (const event of eventObjects) {
         if (!event.date || !event.date.trim()) {
-            continue;  // Skip empty dates
+            continue; // Skip empty dates
         }
 
         // Parse date
@@ -43,8 +43,8 @@ export function parseEventSpecs(
         if (weekIdx >= 0 && weekIdx < totalWeeks) {
             events.push({
                 date: dateVal,
-                label: event.title || (event as any).description || "",
-                weekIndex: weekIdx
+                label: event.title || (event as any).description || '',
+                weekIndex: weekIdx,
             });
             weeks.add(weekIdx);
         }
@@ -60,13 +60,13 @@ export function parseGoalSpecs(
     goalObjects: Goal[],
     birthdate: Date,
     totalWeeks: number
-): { goals: GoalInfo[], goalWeeks: Set<number> } {
+): { goals: GoalInfo[]; goalWeeks: Set<number> } {
     const goals: GoalInfo[] = [];
     const allWeeks: Set<number> = new Set();
 
     for (const goal of goalObjects) {
         if (!goal.startDate || !goal.startDate.trim() || !goal.endDate || !goal.endDate.trim()) {
-            continue;  // Skip empty dates
+            continue; // Skip empty dates
         }
 
         // Parse dates
@@ -77,7 +77,9 @@ export function parseGoalSpecs(
             startDate = parseDate(goal.startDate);
             endDate = parseDate(goal.endDate);
         } catch (e) {
-            console.warn(`Could not parse goal dates '${goal.startDate}' to '${goal.endDate}', expected YYYY-MM-DD.`);
+            console.warn(
+                `Could not parse goal dates '${goal.startDate}' to '${goal.endDate}', expected YYYY-MM-DD.`
+            );
             continue;
         }
 
@@ -124,12 +126,12 @@ export function parseGoalSpecs(
         goals.push({
             startDate: startDate,
             endDate: endDate,
-            label: goal.title || (goal as any).description || "",
-            weekIndices: weekIndices
+            label: goal.title || (goal as any).description || '',
+            weekIndices: weekIndices,
         });
 
         // Add all weeks to master set
-        weekIndices.forEach(w => allWeeks.add(w));
+        weekIndices.forEach((w) => allWeeks.add(w));
     }
 
     return { goals, goalWeeks: allWeeks };
@@ -147,7 +149,7 @@ export function wrapText(label: string, maxWidth: number = 80): string[] {
     const firstChunk = label.substring(0, maxWidth);
     const remaining = label.substring(maxWidth);
     const secondWidth = 60;
-    const padding = " ".repeat(52);
+    const padding = ' '.repeat(52);
 
     const lines = [firstChunk];
 

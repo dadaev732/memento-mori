@@ -5,9 +5,20 @@
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
-    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "lint": "eslint src/**/*.ts main.ts",
+    "lint:fix": "eslint src/**/*.ts main.ts --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"main.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"main.ts\""
   },
-  "keywords": ["obsidian", "plugin", "life-calendar", "memento-mori", "productivity", "time-tracking"],
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "life-calendar",
+    "memento-mori",
+    "productivity",
+    "time-tracking"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
@@ -17,6 +28,7 @@
     "builtin-modules": "^3.3.0",
     "esbuild": "^0.19.10",
     "obsidian": "latest",
+    "prettier": "^3.7.4",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   }

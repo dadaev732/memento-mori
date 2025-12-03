@@ -46,7 +46,7 @@ export function showTooltip(
 
     const age = Math.floor(weekIndex / 52);
     const weekInYear = weekIndex % 52;
-    const percentOfLife = ((weekIndex + 1) / totalWeeks * 100).toFixed(1);
+    const percentOfLife = (((weekIndex + 1) / totalWeeks) * 100).toFixed(1);
 
     let html = `
         <div class="tooltip-week">Week ${weekIndex + 1}</div>
@@ -65,7 +65,7 @@ export function showTooltip(
     }
 
     // Add events if any for this week
-    const weekEvents = parsedEvents?.filter(e => e.weekIndex === weekIndex);
+    const weekEvents = parsedEvents?.filter((e) => e.weekIndex === weekIndex);
     if (weekEvents && weekEvents.length > 0) {
         html += `<div class="tooltip-divider"></div>`;
         html += `<div class="tooltip-section-header">Events</div>`;
@@ -77,7 +77,7 @@ export function showTooltip(
     }
 
     // Add goals if any for this week
-    const weekGoals = parsedGoals?.filter(g => g.weekIndices.has(weekIndex));
+    const weekGoals = parsedGoals?.filter((g) => g.weekIndices.has(weekIndex));
     if (weekGoals && weekGoals.length > 0) {
         html += `<div class="tooltip-divider"></div>`;
         html += `<div class="tooltip-section-header">Goals</div>`;
@@ -123,7 +123,15 @@ export function attachTooltipHandlers(
     parsedGoals?: GoalInfo[]
 ): void {
     element.addEventListener('mouseenter', (e: MouseEvent) => {
-        showTooltip(weekIndex, totalWeeks, e.clientX, e.clientY, weeklyStats, parsedEvents, parsedGoals);
+        showTooltip(
+            weekIndex,
+            totalWeeks,
+            e.clientX,
+            e.clientY,
+            weeklyStats,
+            parsedEvents,
+            parsedGoals
+        );
     });
 
     element.addEventListener('mousemove', (e: MouseEvent) => {
@@ -138,4 +146,3 @@ export function attachTooltipHandlers(
         hideTooltip();
     });
 }
-

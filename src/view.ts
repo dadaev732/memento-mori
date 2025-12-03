@@ -43,7 +43,7 @@ export class MementoMoriView extends ItemView {
             if (!this.plugin.settings.birthdate) {
                 container.createEl('div', {
                     text: 'Please set your birthdate in the plugin settings.',
-                    cls: 'memento-mori-error'
+                    cls: 'memento-mori-error',
                 });
                 return;
             }
@@ -55,7 +55,7 @@ export class MementoMoriView extends ItemView {
             } catch (e) {
                 container.createEl('div', {
                     text: `Invalid birthdate format: ${this.plugin.settings.birthdate}. Expected YYYY-MM-DD.`,
-                    cls: 'memento-mori-error'
+                    cls: 'memento-mori-error',
                 });
                 return;
             }
@@ -85,7 +85,7 @@ export class MementoMoriView extends ItemView {
                 birthdateObj,
                 today,
                 weeksLived,
-                weeklyStats
+                weeklyStats,
             };
 
             // Generate SVG
@@ -93,13 +93,12 @@ export class MementoMoriView extends ItemView {
 
             // Append to container
             container.appendChild(svg);
-
         } catch (error) {
             console.error('Error rendering Memento Mori view:', error);
             const message = error instanceof Error ? error.message : String(error);
             container.createEl('div', {
                 text: `Error rendering view: ${message}`,
-                cls: 'memento-mori-error'
+                cls: 'memento-mori-error',
             });
         }
     }

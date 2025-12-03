@@ -18,7 +18,10 @@ function generateId(): string {
  * Parse code block configuration from YAML-style source
  * Merges with default settings from plugin
  */
-export function parseCodeBlockConfig(source: string, defaultSettings: MementoMoriSettings): RenderConfig {
+export function parseCodeBlockConfig(
+    source: string,
+    defaultSettings: MementoMoriSettings
+): RenderConfig {
     // Start with a copy of default settings
     const config: any = { ...defaultSettings };
 
@@ -74,7 +77,7 @@ export function parseCodeBlockConfig(source: string, defaultSettings: MementoMor
         ...config,
         birthdateObj,
         today,
-        weeksLived
+        weeksLived,
     };
 
     return renderConfig;
@@ -108,7 +111,7 @@ export function processCodeBlock(
         const message = error instanceof Error ? error.message : String(error);
         el.createEl('div', {
             text: `Error rendering Memento Mori: ${message}`,
-            cls: 'memento-mori-error'
+            cls: 'memento-mori-error',
         });
     }
 }
