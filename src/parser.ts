@@ -5,11 +5,7 @@
 
 import { EventInfo, GoalInfo, Event, Goal } from './types';
 import { weeksLivedSince, parseDate } from './calculations';
-import {
-    DEFAULT_MAX_WIDTH,
-    WRAPPED_LINE_WIDTH,
-    WRAPPED_LINE_PADDING,
-} from './constants';
+import { DEFAULT_MAX_WIDTH, WRAPPED_LINE_WIDTH, WRAPPED_LINE_PADDING } from './constants';
 
 /**
  * Parse event specifications from Event objects

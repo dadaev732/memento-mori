@@ -3,7 +3,7 @@
  */
 
 import { parseYaml } from 'obsidian';
-import { MementoMoriSettings, RenderConfig, WeekStats } from './types';
+import { MementoMoriSettings, RenderConfig, WeekStats, Event, Goal } from './types';
 import { generateMementoMoriSVG } from './rendering';
 import { weeksLivedSince, parseDate } from './calculations';
 
@@ -35,21 +35,23 @@ export function parseCodeBlockConfig(
 
             // Auto-generate IDs for events that don't have them
             if (config.events && Array.isArray(config.events)) {
-                config.events = config.events.map((event: any) => {
-                    if (!event.id) {
-                        return { id: generateId(), ...event };
+                config.events = config.events.map(
+                    (event: Event | Omit<Event, 'id'>): Event => {
+                        if (!('id' in event) || !event.id) {
+                            return { id: generateId(), ...event } as Event;
+                        }
+                        return event as Event;
                     }
-                    return event;
-                });
+                );
             }
 
             // Auto-generate IDs for goals that don't have them
             if (config.goals && Array.isArray(config.goals)) {
-                config.goals = config.goals.map((goal: any) => {
-                    if (!goal.id) {
-                        return { id: generateId(), ...goal };
+                config.goals = config.goals.map((goal: Goal | Omit<Goal, 'id'>): Goal => {
+                    if (!('id' in goal) || !goal.id) {
+                        return { id: generateId(), ...goal } as Goal;
                     }
-                    return goal;
+                    return goal as Goal;
                 });
             }
         }

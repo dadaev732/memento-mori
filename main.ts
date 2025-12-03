@@ -64,6 +64,15 @@ function migrateGoalsFromStrings(oldGoals: string[]): Goal[] {
 }
 
 /**
+ * Legacy event format with description field
+ */
+interface LegacyEvent {
+    id: string;
+    date: string;
+    description: string;
+}
+
+/**
  * Migrate events from description-only to title+notes structure
  */
 function migrateEventsToTitleNotes(events: Event[]): Event[] {
@@ -74,13 +83,23 @@ function migrateEventsToTitleNotes(events: Event[]): Event[] {
         }
 
         // Migrate: description -> title
-        const oldEvent = event as any;
+        const oldEvent = event as unknown as LegacyEvent;
         return {
             id: event.id,
             date: event.date,
             title: oldEvent.description || '',
         };
     });
+}
+
+/**
+ * Legacy goal format with description field
+ */
+interface LegacyGoal {
+    id: string;
+    startDate: string;
+    endDate: string;
+    description: string;
 }
 
 /**
@@ -94,7 +113,7 @@ function migrateGoalsToTitleNotes(goals: Goal[]): Goal[] {
         }
 
         // Migrate: description -> title
-        const oldGoal = goal as any;
+        const oldGoal = goal as unknown as LegacyGoal;
         return {
             id: goal.id,
             startDate: goal.startDate,
@@ -165,19 +184,26 @@ export default class MementoMoriPlugin extends Plugin {
         let migrationNeeded = false;
 
         if (this.settings.events.length > 0 && typeof this.settings.events[0] === 'string') {
-            this.settings.events = migrateEventsFromStrings(this.settings.events as any);
+            this.settings.events = migrateEventsFromStrings(
+                this.settings.events as unknown as string[]
+            );
             migrationNeeded = true;
         }
 
         if (this.settings.goals.length > 0 && typeof this.settings.goals[0] === 'string') {
-            this.settings.goals = migrateGoalsFromStrings(this.settings.goals as any);
+            this.settings.goals = migrateGoalsFromStrings(
+                this.settings.goals as unknown as string[]
+            );
             migrationNeeded = true;
         }
 
         // Migration: Convert events to title+notes structure
         if (this.settings.events.length > 0) {
             const needsEventMigration = this.settings.events.some(
-                (e: any) => !('title' in e) && 'description' in e
+                (e) =>
+                    !('title' in e) &&
+                    'description' in (e as Record<string, unknown>) &&
+                    (e as Record<string, unknown>).description
             );
             if (needsEventMigration) {
                 this.settings.events = migrateEventsToTitleNotes(this.settings.events);
@@ -188,7 +214,10 @@ export default class MementoMoriPlugin extends Plugin {
         // Migration: Convert goals to title+notes structure
         if (this.settings.goals.length > 0) {
             const needsGoalMigration = this.settings.goals.some(
-                (g: any) => !('title' in g) && 'description' in g
+                (g) =>
+                    !('title' in g) &&
+                    'description' in (g as Record<string, unknown>) &&
+                    (g as Record<string, unknown>).description
             );
             if (needsGoalMigration) {
                 this.settings.goals = migrateGoalsToTitleNotes(this.settings.goals);
@@ -198,7 +227,7 @@ export default class MementoMoriPlugin extends Plugin {
 
         // Migration: Remove deprecated color/theme properties
 
-        if (this.settings.hasOwnProperty('theme')) {
+        if (Object.prototype.hasOwnProperty.call(this.settings, 'theme')) {
             delete (this.settings as any).theme;
             migrationNeeded = true;
         }
@@ -217,7 +246,7 @@ export default class MementoMoriPlugin extends Plugin {
         ];
 
         for (const prop of deprecatedColorProps) {
-            if (this.settings.hasOwnProperty(prop)) {
+            if (Object.prototype.hasOwnProperty.call(this.settings, prop)) {
                 delete (this.settings as any)[prop];
                 migrationNeeded = true;
             }
@@ -230,13 +259,13 @@ export default class MementoMoriPlugin extends Plugin {
         ];
 
         for (const prop of deprecatedFontProps) {
-            if (this.settings.hasOwnProperty(prop)) {
+            if (Object.prototype.hasOwnProperty.call(this.settings, prop)) {
                 delete (this.settings as any)[prop];
                 migrationNeeded = true;
             }
         }
 
-        if (this.settings.hasOwnProperty('shadeBonusYears')) {
+        if (Object.prototype.hasOwnProperty.call(this.settings, 'shadeBonusYears')) {
             delete (this.settings as any).shadeBonusYears;
             migrationNeeded = true;
         }
