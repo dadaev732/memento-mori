@@ -13,9 +13,9 @@ export class MementoMoriSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h1', { text: 'Memento Mori Settings' });
+        new Setting(containerEl).setName('Memento mori settings').setHeading();
 
-        containerEl.createEl('h2', { text: 'Core Settings' });
+        new Setting(containerEl).setName('Core settings').setHeading();
 
         new Setting(containerEl)
             .setName('Birthdate')
@@ -24,9 +24,9 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('1990-01-01')
                     .setValue(this.plugin.settings.birthdate)
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         this.plugin.settings.birthdate = value;
-                        await this.plugin.saveSettings();
+                        this.plugin.saveSettings().catch(console.error);
                     })
             );
 
@@ -37,16 +37,16 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('80')
                     .setValue(String(this.plugin.settings.years))
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         const num = parseInt(value);
                         if (!isNaN(num) && num > 0) {
                             this.plugin.settings.years = num;
-                            await this.plugin.saveSettings();
+                            this.plugin.saveSettings().catch(console.error);
                         }
                     })
             );
 
-        containerEl.createEl('h2', { text: 'Layout' });
+        new Setting(containerEl).setName('Layout').setHeading();
 
         new Setting(containerEl)
             .setName('Box size')
@@ -56,9 +56,9 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     .setLimits(5, 20, 1)
                     .setValue(this.plugin.settings.boxSize)
                     .setDynamicTooltip()
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         this.plugin.settings.boxSize = value;
-                        await this.plugin.saveSettings();
+                        this.plugin.saveSettings().catch(console.error);
                     })
             );
 
@@ -70,13 +70,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     .setLimits(0, 10, 1)
                     .setValue(this.plugin.settings.spacing)
                     .setDynamicTooltip()
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         this.plugin.settings.spacing = value;
-                        await this.plugin.saveSettings();
+                        this.plugin.saveSettings().catch(console.error);
                     })
             );
 
-        containerEl.createEl('h2', { text: 'Grouping' });
+        new Setting(containerEl).setName('Grouping').setHeading();
 
         new Setting(containerEl)
             .setName('Years per group')
@@ -85,11 +85,11 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('5')
                     .setValue(String(this.plugin.settings.yearsPerGroup))
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         const num = parseInt(value);
                         if (!isNaN(num) && num >= 0) {
                             this.plugin.settings.yearsPerGroup = num;
-                            await this.plugin.saveSettings();
+                            this.plugin.saveSettings().catch(console.error);
                         }
                     })
             );
@@ -101,11 +101,11 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('-1')
                     .setValue(String(this.plugin.settings.verticalGapSize))
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         const num = parseInt(value);
                         if (!isNaN(num)) {
                             this.plugin.settings.verticalGapSize = num;
-                            await this.plugin.saveSettings();
+                            this.plugin.saveSettings().catch(console.error);
                         }
                     })
             );
@@ -117,11 +117,11 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('2')
                     .setValue(String(this.plugin.settings.horizontalParts))
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         const num = parseInt(value);
                         if (!isNaN(num) && num >= 1 && num <= 4) {
                             this.plugin.settings.horizontalParts = num;
-                            await this.plugin.saveSettings();
+                            this.plugin.saveSettings().catch(console.error);
                         }
                     })
             );
@@ -133,24 +133,24 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('-1')
                     .setValue(String(this.plugin.settings.horizontalGapSize))
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         const num = parseInt(value);
                         if (!isNaN(num)) {
                             this.plugin.settings.horizontalGapSize = num;
-                            await this.plugin.saveSettings();
+                            this.plugin.saveSettings().catch(console.error);
                         }
                     })
             );
 
-        containerEl.createEl('h2', { text: 'Features' });
+        new Setting(containerEl).setName('Features').setHeading();
 
         new Setting(containerEl)
             .setName('Show start/end labels')
             .setDesc('Show "Start" and "Fin." labels on first and last rows')
             .addToggle((toggle) =>
-                toggle.setValue(this.plugin.settings.showStartEndLabels).onChange(async (value) => {
+                toggle.setValue(this.plugin.settings.showStartEndLabels).onChange((value) => {
                     this.plugin.settings.showStartEndLabels = value;
-                    await this.plugin.saveSettings();
+                    this.plugin.saveSettings().catch(console.error);
                 })
             );
 
@@ -158,9 +158,9 @@ export class MementoMoriSettingTab extends PluginSettingTab {
             .setName('Show weeks remaining')
             .setDesc('Display weeks remaining below the calendar')
             .addToggle((toggle) =>
-                toggle.setValue(this.plugin.settings.showStats).onChange(async (value) => {
+                toggle.setValue(this.plugin.settings.showStats).onChange((value) => {
                     this.plugin.settings.showStats = value;
-                    await this.plugin.saveSettings();
+                    this.plugin.saveSettings().catch(console.error);
                 })
             );
 
@@ -170,18 +170,20 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 'Display note and word counts for each week in tooltips. Scans vault on plugin load.'
             )
             .addToggle((toggle) =>
-                toggle.setValue(this.plugin.settings.showWeeklyStats).onChange(async (value) => {
+                toggle.setValue(this.plugin.settings.showWeeklyStats).onChange((value) => {
                     this.plugin.settings.showWeeklyStats = value;
 
                     // Recompute stats if enabled
                     if (value && this.plugin.settings.birthdate) {
-                        this.plugin.weeklyStatsCache = await this.plugin.computeWeeklyStats();
+                        this.plugin.computeWeeklyStats().then((stats) => {
+                            this.plugin.weeklyStatsCache = stats;
+                            return this.plugin.saveSettings();
+                        }).catch(console.error);
                     } else {
                         // Clear cache if disabled
                         this.plugin.weeklyStatsCache = null;
+                        this.plugin.saveSettings().catch(console.error);
                     }
-
-                    await this.plugin.saveSettings();
                 })
             );
 
@@ -192,9 +194,9 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('Start')
                     .setValue(this.plugin.settings.startLabel)
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         this.plugin.settings.startLabel = value;
-                        await this.plugin.saveSettings();
+                        this.plugin.saveSettings().catch(console.error);
                     })
             );
 
@@ -205,9 +207,9 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('Fin.')
                     .setValue(this.plugin.settings.endLabel)
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         this.plugin.settings.endLabel = value;
-                        await this.plugin.saveSettings();
+                        this.plugin.saveSettings().catch(console.error);
                     })
             );
 
@@ -218,14 +220,14 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 text
                     .setPlaceholder('80')
                     .setValue(this.plugin.settings.expectedYears?.toString() || '')
-                    .onChange(async (value) => {
+                    .onChange((value) => {
                         const num = parseInt(value);
                         this.plugin.settings.expectedYears = !isNaN(num) && num > 0 ? num : null;
-                        await this.plugin.saveSettings();
+                        this.plugin.saveSettings().catch(console.error);
                     })
             );
 
-        containerEl.createEl('h2', { text: 'Events & Goals' });
+        new Setting(containerEl).setName('Events & goals').setHeading();
 
         const generateId = (): string => {
             return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
@@ -313,9 +315,10 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                             let saveTimeout: NodeJS.Timeout;
                             notesTextarea.addEventListener('input', () => {
                                 clearTimeout(saveTimeout);
-                                saveTimeout = setTimeout(async () => {
-                                    event.notes = notesTextarea!.value;
-                                    await this.plugin.saveSettings();
+                                saveTimeout = setTimeout(() => {
+                                    if (!notesTextarea) return;
+                                    event.notes = notesTextarea.value;
+                                    this.plugin.saveSettings().catch(console.error);
 
                                     const hasContent = event.notes && event.notes.trim();
                                     if (hasContent) {
@@ -328,12 +331,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
                             notesTextarea.focus();
                         }
-                        notesContainer!.style.display = 'block';
+                        if (!notesContainer) return;
+                        notesContainer.classList.remove('is-hidden');
                         notesToggle.empty();
                         setIcon(notesToggle, 'chevron-up');
                     } else {
                         if (notesContainer) {
-                            notesContainer.style.display = 'none';
+                            notesContainer.classList.add('is-hidden');
                         }
                         notesToggle.empty();
                         setIcon(notesToggle, 'chevron-down');
@@ -343,13 +347,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 let dateTimeout: NodeJS.Timeout;
                 dateInput.addEventListener('change', () => {
                     clearTimeout(dateTimeout);
-                    dateTimeout = setTimeout(async () => {
+                    dateTimeout = setTimeout(() => {
                         if (isValidDate(dateInput.value)) {
                             event.date = dateInput.value;
-                            dateInput.style.borderColor = '';
-                            await this.plugin.saveSettings();
+                            dateInput.classList.remove('has-error');
+                            this.plugin.saveSettings().catch(console.error);
                         } else {
-                            dateInput.style.borderColor = 'var(--text-error)';
+                            dateInput.classList.add('has-error');
                         }
                     }, 300);
                 });
@@ -357,13 +361,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 let titleTimeout: NodeJS.Timeout;
                 titleInput.addEventListener('input', () => {
                     clearTimeout(titleTimeout);
-                    titleTimeout = setTimeout(async () => {
+                    titleTimeout = setTimeout(() => {
                         event.title = titleInput.value;
-                        await this.plugin.saveSettings();
+                        this.plugin.saveSettings().catch(console.error);
                     }, 500);
                 });
 
-                titleInput.addEventListener('keydown', async (e) => {
+                titleInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && event.title.trim() && event.date) {
                         this.plugin.settings.events.push({
                             id: generateId(),
@@ -371,17 +375,19 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                             title: '',
                             notes: '',
                         });
-                        await this.plugin.saveSettings();
-                        renderEvents();
+                        this.plugin.saveSettings().then(() => {
+                            renderEvents();
+                        }).catch(console.error);
                     }
                 });
 
                 notesToggle.addEventListener('click', toggleNotes);
 
-                removeBtn.addEventListener('click', async () => {
+                removeBtn.addEventListener('click', () => {
                     this.plugin.settings.events.splice(index, 1);
-                    await this.plugin.saveSettings();
-                    renderEvents();
+                    this.plugin.saveSettings().then(() => {
+                        renderEvents();
+                    }).catch(console.error);
                 });
             });
         };
@@ -390,17 +396,18 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         eventsSetting.addButton((btn) =>
             btn
-                .setButtonText('Add Event')
+                .setButtonText('Add event')
                 .setCta()
-                .onClick(async () => {
+                .onClick(() => {
                     this.plugin.settings.events.push({
                         id: generateId(),
                         date: '',
                         title: '',
                         notes: '',
                     });
-                    await this.plugin.saveSettings();
-                    renderEvents();
+                    this.plugin.saveSettings().then(() => {
+                        renderEvents();
+                    }).catch(console.error);
                 })
         );
 
@@ -485,25 +492,29 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                             let saveTimeout: NodeJS.Timeout;
                             notesTextarea.addEventListener('input', () => {
                                 clearTimeout(saveTimeout);
-                                saveTimeout = setTimeout(async () => {
-                                    goal.notes = notesTextarea!.value;
-                                    await this.plugin.saveSettings();
+                                saveTimeout = setTimeout(() => {
+                                    if (!notesTextarea) return;
+                                    goal.notes = notesTextarea.value;
+                                    this.plugin.saveSettings().catch(console.error);
 
                                     const hasContent = goal.notes && goal.notes.trim();
-                                    notesToggle.style.color = hasContent
-                                        ? 'var(--text-accent)'
-                                        : '';
+                                    if (hasContent) {
+                                        notesToggle.addClass('has-notes');
+                                    } else {
+                                        notesToggle.removeClass('has-notes');
+                                    }
                                 }, 500);
                             });
 
                             notesTextarea.focus();
                         }
-                        notesContainer!.style.display = 'block';
+                        if (!notesContainer) return;
+                        notesContainer.classList.remove('is-hidden');
                         notesToggle.empty();
                         setIcon(notesToggle, 'chevron-up');
                     } else {
                         if (notesContainer) {
-                            notesContainer.style.display = 'none';
+                            notesContainer.classList.add('is-hidden');
                         }
                         notesToggle.empty();
                         setIcon(notesToggle, 'chevron-down');
@@ -513,13 +524,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 let startDateTimeout: NodeJS.Timeout;
                 startDateInput.addEventListener('change', () => {
                     clearTimeout(startDateTimeout);
-                    startDateTimeout = setTimeout(async () => {
+                    startDateTimeout = setTimeout(() => {
                         if (isValidDate(startDateInput.value)) {
                             goal.startDate = startDateInput.value;
-                            startDateInput.style.borderColor = '';
-                            await this.plugin.saveSettings();
+                            startDateInput.classList.remove('has-error');
+                            this.plugin.saveSettings().catch(console.error);
                         } else {
-                            startDateInput.style.borderColor = 'var(--text-error)';
+                            startDateInput.classList.add('has-error');
                         }
                     }, 300);
                 });
@@ -527,13 +538,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 let endDateTimeout: NodeJS.Timeout;
                 endDateInput.addEventListener('change', () => {
                     clearTimeout(endDateTimeout);
-                    endDateTimeout = setTimeout(async () => {
+                    endDateTimeout = setTimeout(() => {
                         if (isValidDate(endDateInput.value)) {
                             goal.endDate = endDateInput.value;
-                            endDateInput.style.borderColor = '';
-                            await this.plugin.saveSettings();
+                            endDateInput.classList.remove('has-error');
+                            this.plugin.saveSettings().catch(console.error);
                         } else {
-                            endDateInput.style.borderColor = 'var(--text-error)';
+                            endDateInput.classList.add('has-error');
                         }
                     }, 300);
                 });
@@ -541,13 +552,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 let titleTimeout: NodeJS.Timeout;
                 titleInput.addEventListener('input', () => {
                     clearTimeout(titleTimeout);
-                    titleTimeout = setTimeout(async () => {
+                    titleTimeout = setTimeout(() => {
                         goal.title = titleInput.value;
-                        await this.plugin.saveSettings();
+                        this.plugin.saveSettings().catch(console.error);
                     }, 500);
                 });
 
-                titleInput.addEventListener('keydown', async (e) => {
+                titleInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && goal.title.trim() && goal.startDate && goal.endDate) {
                         this.plugin.settings.goals.push({
                             id: generateId(),
@@ -556,17 +567,19 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                             title: '',
                             notes: '',
                         });
-                        await this.plugin.saveSettings();
-                        renderGoals();
+                        this.plugin.saveSettings().then(() => {
+                            renderGoals();
+                        }).catch(console.error);
                     }
                 });
 
                 notesToggle.addEventListener('click', toggleNotes);
 
-                removeBtn.addEventListener('click', async () => {
+                removeBtn.addEventListener('click', () => {
                     this.plugin.settings.goals.splice(index, 1);
-                    await this.plugin.saveSettings();
-                    renderGoals();
+                    this.plugin.saveSettings().then(() => {
+                        renderGoals();
+                    }).catch(console.error);
                 });
             });
         };
@@ -575,9 +588,9 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         goalsSetting.addButton((btn) =>
             btn
-                .setButtonText('Add Goal')
+                .setButtonText('Add goal')
                 .setCta()
-                .onClick(async () => {
+                .onClick(() => {
                     this.plugin.settings.goals.push({
                         id: generateId(),
                         startDate: '',
@@ -585,8 +598,9 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                         title: '',
                         notes: '',
                     });
-                    await this.plugin.saveSettings();
-                    renderGoals();
+                    this.plugin.saveSettings().then(() => {
+                        renderGoals();
+                    }).catch(console.error);
                 })
         );
     }

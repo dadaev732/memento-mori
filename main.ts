@@ -14,12 +14,17 @@ export default class MementoMoriPlugin extends Plugin {
     settings: MementoMoriSettings = DEFAULT_SETTINGS;
     weeklyStatsCache: Map<number, WeekStats> | null = null;
 
-    async onload() {
-        await this.loadSettings();
-
-        if (this.settings.showWeeklyStats && this.settings.birthdate) {
-            this.weeklyStatsCache = await this.computeWeeklyStats();
-        }
+    onload(): void {
+        this.loadSettings().then(() => {
+            if (this.settings.showWeeklyStats && this.settings.birthdate) {
+                return this.computeWeeklyStats();
+            }
+            return null;
+        }).then((stats) => {
+            if (stats) {
+                this.weeklyStatsCache = stats;
+            }
+        }).catch(console.error);
 
         this.registerView(VIEW_TYPE_MEMENTO_MORI, (leaf) => new MementoMoriView(leaf, this));
 
@@ -30,19 +35,21 @@ export default class MementoMoriPlugin extends Plugin {
         });
 
         this.addCommand({
-            id: 'open-memento-mori-view',
-            name: 'Open Memento Mori view',
-            callback: () => this.activateView(),
+            id: 'open-view',
+            name: 'Open view',
+            callback: () => {
+                this.activateView().catch(console.error);
+            },
         });
 
         this.addCommand({
-            id: 'refresh-memento-mori-view',
-            name: 'Refresh Memento Mori view',
+            id: 'refresh-view',
+            name: 'Refresh view',
             callback: () => this.refreshView(),
         });
 
-        this.addRibbonIcon('skull', 'Open Memento Mori', () => {
-            this.activateView();
+        this.addRibbonIcon('skull', 'Open memento mori', () => {
+            this.activateView().catch(console.error);
         });
 
         this.addSettingTab(new MementoMoriSettingTab(this.app, this));
@@ -120,8 +127,9 @@ export default class MementoMoriPlugin extends Plugin {
         let birthdateObj: Date;
         try {
             birthdateObj = parseDate(this.settings.birthdate);
-        } catch (e) {
-            console.warn('Invalid birthdate, skipping stats computation');
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.warn('Invalid birthdate, skipping stats computation:', message);
             return statsMap;
         }
 
@@ -143,15 +151,18 @@ export default class MementoMoriPlugin extends Plugin {
                 statsMap.set(weekIndex, { notesCreated: 0, wordsWritten: 0 });
             }
 
-            const stats = statsMap.get(weekIndex)!;
+            const stats = statsMap.get(weekIndex);
+            if (!stats) continue;
             stats.notesCreated++;
 
             // Read file content and count words
             try {
                 const content = await this.app.vault.cachedRead(file);
                 stats.wordsWritten += this.countWords(content);
-            } catch (e) {
+            } catch (error) {
                 // Continue processing other files
+                const message = error instanceof Error ? error.message : String(error);
+                console.debug('Error reading file for stats:', file.path, message);
             }
         }
 

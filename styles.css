@@ -423,3 +423,14 @@
     border-radius: 8px;
     margin-bottom: 12px;
 }
+
+/* Error state for inputs */
+.memento-mori-date-input-inline.has-error,
+.memento-mori-date-input-inline-small.has-error {
+    border-color: var(--text-error);
+}
+
+/* Hidden state */
+.memento-mori-notes-container.is-hidden {
+    display: none;
+}

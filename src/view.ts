@@ -43,9 +43,10 @@ export class MementoMoriView extends ItemView {
             let birthdateObj: Date;
             try {
                 birthdateObj = parseDate(this.plugin.settings.birthdate);
-            } catch (e) {
+            } catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
                 container.createEl('div', {
-                    text: `Invalid birthdate format: ${this.plugin.settings.birthdate}. Expected YYYY-MM-DD.`,
+                    text: `Invalid birthdate format: ${this.plugin.settings.birthdate}. Expected YYYY-MM-DD. ${message}`,
                     cls: 'memento-mori-error',
                 });
                 return;
