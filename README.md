@@ -117,4 +117,5 @@ goals:
 
 ---
 
-Inspired by [memento-mori](https://nor-git.pages.dev/memento-mori/) • Licensed under [MIT](LICENSE)
+Inspired by [memento-mori](https://nor-git.pages.dev/memento-mori/) by nor-nor
+Licensed under [MIT](LICENSE)
