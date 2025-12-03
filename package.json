@@ -1,6 +1,6 @@
 {
   "name": "memento-mori",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "Visualize your life in weeks with a beautiful life calendar grid. Track events, goals, and see time in a memento mori perspective.",
   "main": "main.js",
   "scripts": {
