@@ -1,13 +1,6 @@
-/**
- * Settings management and UI tab - Simplified Events/Goals UX
- */
-
 import { App, PluginSettingTab, Setting, setIcon } from 'obsidian';
 import type MementoMoriPlugin from '../main';
 
-/**
- * Settings tab for plugin configuration
- */
 export class MementoMoriSettingTab extends PluginSettingTab {
     plugin: MementoMoriPlugin;
 
@@ -22,7 +15,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         containerEl.createEl('h1', { text: 'Memento Mori Settings' });
 
-        // Core Settings
         containerEl.createEl('h2', { text: 'Core Settings' });
 
         new Setting(containerEl)
@@ -54,7 +46,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     })
             );
 
-        // Layout Settings
         containerEl.createEl('h2', { text: 'Layout' });
 
         new Setting(containerEl)
@@ -85,7 +76,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     })
             );
 
-        // Grouping Settings
         containerEl.createEl('h2', { text: 'Grouping' });
 
         new Setting(containerEl)
@@ -152,7 +142,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     })
             );
 
-        // Features
         containerEl.createEl('h2', { text: 'Features' });
 
         new Setting(containerEl)
@@ -236,15 +225,12 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     })
             );
 
-        // Events and Goals
         containerEl.createEl('h2', { text: 'Events & Goals' });
 
-        // Helper function to generate unique IDs
         const generateId = (): string => {
             return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
         };
 
-        // Helper function to validate date format
         const isValidDate = (dateStr: string): boolean => {
             if (!dateStr || !dateStr.trim()) return false;
             if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return false;
@@ -252,16 +238,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
             return date instanceof Date && !isNaN(date.getTime());
         };
 
-        // Events section with inline button
         const eventsSetting = new Setting(containerEl)
             .setName('Events')
             .setDesc('Mark significant life events on your calendar')
             .setHeading();
 
-        // Container for event list
         const eventsContainer = containerEl.createDiv('memento-mori-events-container');
 
-        // Function to render event items
         const renderEvents = () => {
             eventsContainer.empty();
 
@@ -273,17 +256,14 @@ export class MementoMoriSettingTab extends PluginSettingTab {
             }
 
             this.plugin.settings.events.forEach((event, index) => {
-                // Main row container
                 const row = eventsContainer.createDiv({ cls: 'memento-mori-event-row' });
 
-                // Date input (inline, compact)
                 const dateInput = row.createEl('input', {
                     type: 'date',
                     value: event.date,
                     cls: 'memento-mori-date-input-inline',
                 });
 
-                // Title input (single line, grows)
                 const titleInput = row.createEl('input', {
                     type: 'text',
                     value: event.title || '',
@@ -291,7 +271,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     placeholder: 'Event name...',
                 });
 
-                // Notes toggle button
                 const hasNotes = event.notes && event.notes.trim();
                 const notesToggle = row.createEl('button', {
                     cls: 'memento-mori-notes-toggle',
@@ -311,12 +290,10 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 removeBtn.empty();
                 setIcon(removeBtn, 'x');
 
-                // Notes container (initially hidden)
                 let notesContainer: HTMLElement | null = null;
                 let notesTextarea: HTMLTextAreaElement | null = null;
                 let notesExpanded = false;
 
-                // Toggle notes visibility
                 const toggleNotes = () => {
                     notesExpanded = !notesExpanded;
 
@@ -333,7 +310,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                                 cls: 'memento-mori-notes-textarea-compact',
                             });
 
-                            // Debounced save on input
                             let saveTimeout: NodeJS.Timeout;
                             notesTextarea.addEventListener('input', () => {
                                 clearTimeout(saveTimeout);
@@ -341,7 +317,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                                     event.notes = notesTextarea!.value;
                                     await this.plugin.saveSettings();
 
-                                    // Update toggle class
                                     const hasContent = event.notes && event.notes.trim();
                                     if (hasContent) {
                                         notesToggle.addClass('has-notes');
@@ -365,7 +340,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     }
                 };
 
-                // Event listeners
                 let dateTimeout: NodeJS.Timeout;
                 dateInput.addEventListener('change', () => {
                     clearTimeout(dateTimeout);
@@ -389,7 +363,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     }, 500);
                 });
 
-                // Enter key to add new event (if current has title + date)
                 titleInput.addEventListener('keydown', async (e) => {
                     if (e.key === 'Enter' && event.title.trim() && event.date) {
                         this.plugin.settings.events.push({
@@ -415,7 +388,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         renderEvents();
 
-        // Add Event button (inline with heading)
         eventsSetting.addButton((btn) =>
             btn
                 .setButtonText('Add Event')
@@ -432,13 +404,11 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 })
         );
 
-        // Goals section with inline button
         const goalsSetting = new Setting(containerEl)
             .setName('Goals')
             .setDesc('Set long-term goals spanning multiple weeks')
             .setHeading();
 
-        // Container for goals list
         const goalsContainer = containerEl.createDiv('memento-mori-goals-container');
 
         const renderGoals = () => {
@@ -452,24 +422,20 @@ export class MementoMoriSettingTab extends PluginSettingTab {
             }
 
             this.plugin.settings.goals.forEach((goal, index) => {
-                // Main row container
                 const row = goalsContainer.createDiv({ cls: 'memento-mori-event-row' });
 
-                // Start Date input
                 const startDateInput = row.createEl('input', {
                     type: 'date',
                     value: goal.startDate,
                     cls: 'memento-mori-date-input-inline-small',
                 });
 
-                // End Date input
                 const endDateInput = row.createEl('input', {
                     type: 'date',
                     value: goal.endDate,
                     cls: 'memento-mori-date-input-inline-small',
                 });
 
-                // Title input
                 const titleInput = row.createEl('input', {
                     type: 'text',
                     value: goal.title || '',
@@ -477,7 +443,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     placeholder: 'Goal name...',
                 });
 
-                // Notes toggle button
                 const hasNotes = goal.notes && goal.notes.trim();
                 const notesToggle = row.createEl('button', {
                     cls: 'memento-mori-notes-toggle',
@@ -497,7 +462,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                 removeBtn.empty();
                 setIcon(removeBtn, 'x');
 
-                // Notes container (similar to events)
                 let notesContainer: HTMLElement | null = null;
                 let notesTextarea: HTMLTextAreaElement | null = null;
                 let notesExpanded = false;
@@ -546,7 +510,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                     }
                 };
 
-                // Event listeners (similar to events, with both dates)
                 let startDateTimeout: NodeJS.Timeout;
                 startDateInput.addEventListener('change', () => {
                     clearTimeout(startDateTimeout);
@@ -610,7 +573,6 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         renderGoals();
 
-        // Add Goal button (inline with heading)
         goalsSetting.addButton((btn) =>
             btn
                 .setButtonText('Add Goal')

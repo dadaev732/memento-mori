@@ -15,50 +15,40 @@ export default class MementoMoriPlugin extends Plugin {
     weeklyStatsCache: Map<number, WeekStats> | null = null;
 
     async onload() {
-        // Load settings
         await this.loadSettings();
 
-        // Compute weekly stats on load if enabled
         if (this.settings.showWeeklyStats && this.settings.birthdate) {
             this.weeklyStatsCache = await this.computeWeeklyStats();
         }
 
-        // Register custom view
         this.registerView(VIEW_TYPE_MEMENTO_MORI, (leaf) => new MementoMoriView(leaf, this));
 
-        // Register code block processor
         this.registerMarkdownCodeBlockProcessor('memento-mori', (source, el) => {
             el.empty();
             el.addClass('memento-mori-codeblock');
             processCodeBlock(source, el, this.settings, this.weeklyStatsCache || undefined);
         });
 
-        // Add command to open view
         this.addCommand({
             id: 'open-memento-mori-view',
             name: 'Open Memento Mori view',
             callback: () => this.activateView(),
         });
 
-        // Add command to refresh view
         this.addCommand({
             id: 'refresh-memento-mori-view',
             name: 'Refresh Memento Mori view',
             callback: () => this.refreshView(),
         });
 
-        // Add ribbon icon
         this.addRibbonIcon('skull', 'Open Memento Mori', () => {
             this.activateView();
         });
 
-        // Add settings tab
         this.addSettingTab(new MementoMoriSettingTab(this.app, this));
     }
 
-    async onunload() {
-        // Cleanup if needed
-    }
+    async onunload() {}
 
     /**
      * Load settings from data.json
