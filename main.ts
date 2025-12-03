@@ -144,7 +144,7 @@ export default class MementoMoriPlugin extends Plugin {
         });
 
         // Add ribbon icon
-        this.addRibbonIcon('calendar-clock', 'Open Memento Mori', () => {
+        this.addRibbonIcon('skull', 'Open Memento Mori', () => {
             this.activateView();
         });
 
