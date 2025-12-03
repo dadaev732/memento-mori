@@ -3,7 +3,7 @@
  * Visualize your life in weeks with a beautiful life calendar
  */
 
-import { Plugin, WorkspaceLeaf } from 'obsidian';
+import { Plugin } from 'obsidian';
 import { MementoMoriSettings, DEFAULT_SETTINGS, Event, Goal, WeekStats } from './src/types';
 import { MementoMoriSettingTab } from './src/settings';
 import { MementoMoriView, VIEW_TYPE_MEMENTO_MORI } from './src/view';
@@ -271,26 +271,18 @@ export default class MementoMoriPlugin extends Plugin {
     async activateView() {
         const { workspace } = this.app;
 
-        let leaf: WorkspaceLeaf | null = null;
+        // Check if view already exists
         const leaves = workspace.getLeavesOfType(VIEW_TYPE_MEMENTO_MORI);
 
         if (leaves.length > 0) {
-            // View already exists, reveal it
-            leaf = leaves[0];
+            // View already exists, just reveal it
+            workspace.revealLeaf(leaves[0]);
         } else {
-            // Create new leaf in right sidebar
-            leaf = workspace.getRightLeaf(false);
-            if (leaf) {
-                await leaf.setViewState({
-                    type: VIEW_TYPE_MEMENTO_MORI,
-                    active: true,
-                });
-            }
-        }
-
-        // Reveal the leaf
-        if (leaf) {
-            workspace.revealLeaf(leaf);
+            // Create new leaf explicitly in left sidebar
+            await workspace.ensureSideLeaf(VIEW_TYPE_MEMENTO_MORI, 'left', {
+                active: true,
+                reveal: true,
+            });
         }
     }
 
