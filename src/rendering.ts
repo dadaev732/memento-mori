@@ -356,9 +356,9 @@ export function generateMementoMoriSVG(
     if (config.showStartEndLabels && config.years > 0) {
         // Calculate X position of the right edge of the last column (column 51, since 0-indexed)
         const lastColX = colX0(51, dims);
-        const xRight = lastColX + dims.boxSize;
+        const xRight = lastColX + dims.boxSize + dims.spacing * 2; // Add padding to prevent truncation
 
-        // Start label - right-aligned at the right edge of the last box column
+        // Start label - right-aligned with padding
         const yStart = dims.marginY + dims.labelSpaceTop * 0.5;
         const textStart = createSVGElement('text', {
             x: xRight,
@@ -373,7 +373,7 @@ export function generateMementoMoriSVG(
         textStart.classList.add('start-label');
         svg.appendChild(textStart);
 
-        // End label - right-aligned at the right edge of the last box column
+        // End label - right-aligned with padding
         const gridEndY = rowY0(config.years - 1, dims, config) + dims.boxSize;
         const yEnd = gridEndY + dims.labelSpaceBottom * 0.5;
         const textEnd = createSVGElement('text', {
