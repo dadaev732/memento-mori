@@ -1,0 +1,425 @@
+/**
+ * Memento Mori Plugin Styles
+ */
+
+/* View container */
+.memento-mori-view {
+    padding: 20px 20px 0 20px;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100%;
+}
+
+/* Code block container */
+.memento-mori-codeblock {
+    margin: 1em 0;
+    padding: 1em;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+}
+
+/* Canvas wrapper (for canvas rendering) */
+.memento-mori-canvas-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+}
+
+/* Canvas element (or SVG for backwards compat) */
+.memento-mori-calendar {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Interaction layer (transparent overlay for canvas mouse events) */
+.memento-mori-interaction-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+/* SVG-specific: Week boxes hover effect (only for SVG rendering) */
+.memento-mori-calendar .week-box {
+    cursor: pointer;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.memento-mori-calendar .week-box:hover {
+    opacity: 0.85;
+    filter: brightness(1.1);
+}
+
+/* Custom tooltip styling - matches Obsidian theme */
+.memento-mori-tooltip {
+    position: fixed;
+    z-index: 1000;
+    padding: 6px 10px;
+    background-color: var(--background-secondary);
+    color: var(--text-normal);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: var(--font-interface);
+    pointer-events: none;
+    box-shadow: var(--shadow-s);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.memento-mori-tooltip.visible {
+    opacity: 1;
+}
+
+.memento-mori-tooltip .tooltip-week {
+    font-weight: 600;
+    color: var(--text-accent);
+}
+
+.memento-mori-tooltip .tooltip-details {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.memento-mori-tooltip .tooltip-divider {
+    border-top: 1px solid var(--background-modifier-border);
+    margin: 6px 0 4px 0;
+}
+
+.memento-mori-tooltip .tooltip-stats {
+    font-size: 11px;
+    color: var(--text-normal);
+    margin-top: 2px;
+}
+
+.memento-mori-tooltip .tooltip-event-list {
+    margin: 4px 0 0 0;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.memento-mori-tooltip .tooltip-event {
+    font-size: 11px;
+    color: var(--text-normal);
+    margin-top: 0;
+    line-height: 1.2;
+    padding-left: 12px;
+    position: relative;
+}
+
+.memento-mori-tooltip .tooltip-event::before {
+    content: '•';
+    position: absolute;
+    left: 2px;
+    color: var(--text-normal);
+}
+
+.memento-mori-tooltip .tooltip-section-header {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+.memento-mori-tooltip .tooltip-goal-list {
+    margin: 4px 0 0 0;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.memento-mori-tooltip .tooltip-goal {
+    font-size: 11px;
+    color: var(--text-normal);
+    margin-top: 0;
+    line-height: 1.2;
+    padding-left: 12px;
+    position: relative;
+}
+
+.memento-mori-tooltip .tooltip-goal::before {
+    content: '•';
+    position: absolute;
+    left: 2px;
+    color: var(--text-normal);
+}
+
+.memento-mori-tooltip .tooltip-goal .goal-progress {
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
+/* Event and goal markers */
+.memento-mori-calendar .event-marker,
+.memento-mori-calendar .goal-marker {
+    pointer-events: none;
+}
+
+/* Text elements */
+.memento-mori-calendar text {
+    user-select: none;
+}
+
+.memento-mori-calendar .year-label,
+.memento-mori-calendar .start-label,
+.memento-mori-calendar .end-label {
+    font-weight: 500;
+}
+
+/* Notes panel removed - events/goals now shown in tooltips */
+
+/* Error messages */
+.memento-mori-error {
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 4px;
+    background-color: var(--background-modifier-error, rgba(255, 82, 82, 0.1));
+    color: var(--text-error, #dc2626);
+    border: 1px solid var(--background-modifier-error-border, rgba(220, 38, 38, 0.3));
+    font-weight: 500;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .memento-mori-view {
+        padding: 10px;
+    }
+
+    .memento-mori-codeblock {
+        padding: 0.5em;
+    }
+}
+
+/* Dark mode compatibility */
+.theme-dark .memento-mori-calendar {
+    /* SVG colors are controlled by settings, no need for CSS overrides */
+}
+
+.theme-light .memento-mori-calendar {
+    /* SVG colors are controlled by settings, no need for CSS overrides */
+}
+
+/* Settings tab improvements */
+.memento-mori-settings textarea {
+    font-family: var(--font-monospace);
+    font-size: 0.9em;
+}
+
+/* Ensure SVG fits in container */
+.memento-mori-view svg,
+.memento-mori-codeblock svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Scrollbar styling for view */
+.memento-mori-view::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.memento-mori-view::-webkit-scrollbar-track {
+    background: var(--background-secondary);
+}
+
+.memento-mori-view::-webkit-scrollbar-thumb {
+    background: var(--background-modifier-border);
+    border-radius: 5px;
+}
+
+.memento-mori-view::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Events and goals form lists (deprecated - keeping for compatibility) */
+.memento-mori-events-list .setting-item,
+.memento-mori-goals-list .setting-item {
+    border-top: 1px solid var(--background-modifier-border);
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.memento-mori-events-list .setting-item:first-child,
+.memento-mori-goals-list .setting-item:first-child {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.memento-mori-events-list input[type="text"],
+.memento-mori-goals-list input[type="text"] {
+    flex-grow: 1;
+    margin-right: 8px;
+}
+
+.memento-mori-events-list input[type="text"]:first-of-type,
+.memento-mori-goals-list input[type="text"]:first-of-type {
+    max-width: 150px;
+}
+
+/* Inline event/goal row layout */
+.memento-mori-events-container,
+.memento-mori-goals-container {
+    margin-bottom: 16px;
+}
+
+.memento-mori-event-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    background-color: var(--background-primary);
+    transition: background-color 0.15s;
+}
+
+.memento-mori-event-row:hover {
+    background-color: var(--background-secondary);
+}
+
+/* Date input - inline, compact */
+.memento-mori-date-input-inline {
+    width: 120px;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+    font-family: var(--font-monospace);
+}
+
+/* For goals with two dates */
+.memento-mori-date-input-inline-small {
+    width: 100px;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+    font-family: var(--font-monospace);
+}
+
+/* Title input - single line, grows to fill space */
+.memento-mori-title-input {
+    flex: 1;
+    padding: 6px 8px;
+    font-size: 13px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+    font-family: var(--font-interface);
+}
+
+.memento-mori-title-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Notes toggle button */
+.memento-mori-notes-toggle {
+    width: 24px;
+    height: 24px;
+    padding: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.15s;
+}
+
+.memento-mori-notes-toggle svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.memento-mori-notes-toggle:hover {
+    background-color: var(--background-modifier-hover);
+    color: var(--text-normal);
+}
+
+.memento-mori-notes-toggle.has-notes {
+    color: var(--text-accent);
+}
+
+/* Notes container - appears below row */
+.memento-mori-notes-container {
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+/* Notes textarea - compact, expandable */
+.memento-mori-notes-textarea-compact {
+    width: 100%;
+    min-height: 50px;
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background-color: var(--background-primary);
+    color: var(--text-muted);
+    resize: vertical;
+    font-family: var(--font-interface);
+}
+
+.memento-mori-notes-textarea-compact::placeholder {
+    color: var(--text-faint);
+}
+
+/* Remove button - inline style */
+.memento-mori-remove-btn {
+    width: 24px;
+    height: 24px;
+    padding: 2px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.15s;
+}
+
+.memento-mori-remove-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.memento-mori-remove-btn:hover {
+    background-color: var(--background-modifier-error);
+    color: var(--text-error);
+}
+
+.memento-mori-empty-state {
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--background-secondary);
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
