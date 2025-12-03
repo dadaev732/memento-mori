@@ -23,7 +23,7 @@ Visualize your life in weeks with a beautiful, interactive life calendar. This p
 
 ### Manual Installation
 
-1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/dadaev732/memento-mori/releases)
+1. Download the latest `main.js`, `manifest.json`, and `styles.css` files from the repository
 2. Create folder: `<vault>/.obsidian/plugins/memento-mori/`
 3. Copy the files into this folder
 4. Reload Obsidian and enable the plugin in Settings → Community Plugins
