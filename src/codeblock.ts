@@ -8,6 +8,13 @@ import { generateMementoMoriSVG } from './rendering';
 import { weeksLivedSince, parseDate } from './calculations';
 
 /**
+ * Generate a unique ID for events/goals
+ */
+function generateId(): string {
+    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+}
+
+/**
  * Parse code block configuration from YAML-style source
  * Merges with default settings from plugin
  */
@@ -22,6 +29,26 @@ export function parseCodeBlockConfig(source: string, defaultSettings: MementoMor
         if (parsed && typeof parsed === 'object') {
             // Merge parsed config with defaults
             Object.assign(config, parsed);
+
+            // Auto-generate IDs for events that don't have them
+            if (config.events && Array.isArray(config.events)) {
+                config.events = config.events.map((event: any) => {
+                    if (!event.id) {
+                        return { id: generateId(), ...event };
+                    }
+                    return event;
+                });
+            }
+
+            // Auto-generate IDs for goals that don't have them
+            if (config.goals && Array.isArray(config.goals)) {
+                config.goals = config.goals.map((goal: any) => {
+                    if (!goal.id) {
+                        return { id: generateId(), ...goal };
+                    }
+                    return goal;
+                });
+            }
         }
     } catch (error) {
         console.warn('Error parsing code block config:', error);

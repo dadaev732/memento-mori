@@ -54,10 +54,14 @@ birthdate: 1990-01-01
 years: 80
 showStats: true
 events:
-  - 2010-06-15:Graduated High School
-  - 2020-03-15:Started Dream Job
+  - date: 2010-06-15
+    title: Graduated High School
+  - date: 2020-03-15
+    title: Started Dream Job
 goals:
-  - 2024-01-01:2024-12-31:Learn TypeScript
+  - startDate: 2024-01-01
+    endDate: 2024-12-31
+    title: Learn TypeScript
 ```
 ````
 
@@ -93,24 +97,35 @@ The plugin integrates with your Obsidian theme using CSS variables:
 
 ### Events
 
-Events mark specific dates. In settings UI, use the inline row editor with:
-- **Title** (required): Event name
-- **Date** (required): YYYY-MM-DD format
-- **Notes** (optional): Additional details
+Events mark specific dates. In the settings UI, use the inline row editor. In code blocks, use YAML format:
 
-In code blocks, use the string format:
+```yaml
+events:
+  - date: 2010-06-15
+    title: Graduated High School
+  - date: 2018-05-20
+    title: College Graduation
+    notes: Optional additional details
 ```
-2010-06-15:Graduated High School
-2018-05-20:College Graduation
-```
+
+**Note**: The `id` field is auto-generated for code blocks and can be omitted.
 
 ### Goals
 
-Goals mark multi-week periods:
+Goals mark multi-week periods. In code blocks, use YAML format:
+
+```yaml
+goals:
+  - startDate: 2024-01-01
+    endDate: 2024-12-31
+    title: Learn TypeScript
+  - startDate: 2025-01-01
+    endDate: 2025-06-30
+    title: Build Obsidian Plugin
+    notes: Optional notes about the goal
 ```
-2024-01-01:2024-12-31:Learn TypeScript
-2025-01-01:2025-06-30:Build Obsidian Plugin
-```
+
+**Note**: The `id` field is auto-generated for code blocks and can be omitted.
 
 ## Code Block Examples
 
@@ -130,10 +145,14 @@ birthdate: 1990-01-01
 years: 80
 showStats: true
 events:
-  - 2010-06-15:Graduated High School
-  - 2020-03-15:Started Dream Job
+  - date: 2010-06-15
+    title: Graduated High School
+  - date: 2020-03-15
+    title: Started Dream Job
 goals:
-  - 2024-01-01:2024-12-31:Learn TypeScript
+  - startDate: 2024-01-01
+    endDate: 2024-12-31
+    title: Learn TypeScript
 ```
 ````
 
