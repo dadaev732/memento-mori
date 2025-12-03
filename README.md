@@ -115,47 +115,26 @@ goals:
 
 **Note**: The `id` field is auto-generated for code blocks and can be omitted.
 
-## Code Block Example
-
-````markdown
-```memento-mori
-birthdate: 1990-01-01
-years: 80
-showStats: true
-events:
-  - date: 2010-06-15
-    title: Graduated High School
-  - date: 2020-03-15
-    title: Started Dream Job
-goals:
-  - startDate: 2024-01-01
-    endDate: 2024-12-31
-    title: Learn TypeScript
-```
-````
-
-## Philosophy
-
-The concept of "memento mori" (Latin for "remember you must die") is an ancient practice of reflecting on mortality. By visualizing your life in weeks, this plugin helps you:
-
-- **Gain perspective**: See the bigger picture of your life
-- **Stay motivated**: Each week is precious and visible
-- **Track progress**: Mark achievements and ongoing projects
-- **Live intentionally**: Focus on what truly matters
-
-## Support
-
-- **Issues**: Report bugs at [GitHub Issues](https://github.com/dadaev732/memento-mori/issues)
-- **Discussions**: Share ideas and get help in [GitHub Discussions](https://github.com/dadaev732/memento-mori/discussions)
-
 ## License
 
-MIT License - See LICENSE file for details
+MIT License
 
-## Credits
+Copyright (c) 2025 avicenna
 
-Created by [avicenna](https://github.com/dadaev732). Inspired by the memento mori wallpaper generator concept, faithfully ported to TypeScript for Obsidian integration.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
----
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-**Remember**: Each week is a box. Make it count.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
