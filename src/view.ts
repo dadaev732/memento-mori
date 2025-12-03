@@ -30,7 +30,7 @@ export class MementoMoriView extends ItemView {
     }
 
     getIcon(): string {
-        return 'calendar-clock';
+        return 'skull';
     }
 
     async onOpen(): Promise<void> {
