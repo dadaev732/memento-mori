@@ -160,9 +160,7 @@ export default class MementoMoriPlugin extends Plugin {
                 const content = await this.app.vault.cachedRead(file);
                 stats.wordsWritten += this.countWords(content);
             } catch (error) {
-                // Continue processing other files
-                const message = error instanceof Error ? error.message : String(error);
-                console.debug('Error reading file for stats:', file.path, message);
+                // Continue processing other files - silently skip files that can't be read
             }
         }
 
