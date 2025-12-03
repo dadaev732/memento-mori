@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A life calendar following the memento mori concept.",
   "main": "main.js",
+  "type": "module",
   "scripts": {
     "dev": "node esbuild.config.mjs",
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
@@ -22,14 +23,19 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@eslint/json": "^0.14.0",
     "@types/node": "^20.10.0",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
+    "@typescript-eslint/parser": "^8.48.1",
+    "@typescript-eslint/utils": "^8.48.1",
     "builtin-modules": "^3.3.0",
     "esbuild": "^0.19.10",
+    "eslint": "^9.39.1",
+    "eslint-plugin-obsidianmd": "^0.1.9",
     "obsidian": "latest",
     "prettier": "^3.7.4",
     "tslib": "^2.6.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.48.1"
   }
 }

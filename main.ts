@@ -159,7 +159,7 @@ export default class MementoMoriPlugin extends Plugin {
             try {
                 const content = await this.app.vault.cachedRead(file);
                 stats.wordsWritten += this.countWords(content);
-            } catch (error) {
+            } catch (_error) {
                 // Continue processing other files - silently skip files that can't be read
             }
         }
