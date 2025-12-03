@@ -57,8 +57,8 @@ Events use `date` and `title` fields; goals use `startDate`, `endDate`, and `tit
 - **Years per group**: Add visual gaps every N years for readability (default: 5)
 - **Show statistics**: Display panel with age, weeks lived/remaining
 - **Show weekly stats**: Display notes created and words written in hover tooltips
-- **Highlight current year**: Highlight your current age row
-- **Expected lifespan**: Draw a line at expected age (e.g., 75 years)
+- **Expected lifespan**: Draw a line at expected age (null to disable)
+- **Start/End labels**: Toggle year labels at top and bottom
 
 Colors adapt automatically to your Obsidian theme and can be customized in settings.
 
