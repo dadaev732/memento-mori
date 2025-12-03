@@ -2,14 +2,13 @@
  * Font size calculations based on box size
  */
 
+import { FONT_SIZE_MULTIPLIER, MIN_FONT_SIZE } from '../constants';
+
 export interface FontSizes {
     fontSize: number;
     fontSizeStats: number;
     fontSizeNotes: number;
 }
-
-const FONT_SIZE_MULTIPLIER = 1.68; // 1.2 * 1.4
-const MIN_FONT_SIZE = 8;
 
 /**
  * Calculate font sizes for all text elements

@@ -3,6 +3,8 @@
  * No DOM manipulation, no side effects - easily testable
  */
 
+import { WEEKS_PER_YEAR } from '../constants';
+
 export interface GridDimensions {
     gridWidthCore: number;
     gridHeight: number;
@@ -34,7 +36,8 @@ export function calculateGridDimensions(
     const horizGapSize = gaps.horizontalGapSize >= 0 ? gaps.horizontalGapSize : boxSize;
 
     // Calculate dimensions
-    const gridWidthCore = 52 * boxSize + 51 * spacing + numGapsH * horizGapSize;
+    const gridWidthCore =
+        WEEKS_PER_YEAR * boxSize + (WEEKS_PER_YEAR - 1) * spacing + numGapsH * horizGapSize;
     const gridHeight = years * boxSize + (years - 1) * spacing + numGapsV * vertGapSize;
     const gridWidth = gridWidthCore;
 
@@ -48,7 +51,7 @@ export function calculateGapPositions(horizontalParts: number): number[] {
     if (horizontalParts <= 1) return [];
 
     const gapPositions: number[] = [];
-    const weeksPerPart = Math.floor(52 / horizontalParts);
+    const weeksPerPart = Math.floor(WEEKS_PER_YEAR / horizontalParts);
 
     for (let i = 1; i < horizontalParts; i++) {
         gapPositions.push(i * weeksPerPart);

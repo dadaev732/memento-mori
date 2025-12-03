@@ -5,6 +5,11 @@
 
 import { EventInfo, GoalInfo, Event, Goal } from './types';
 import { weeksLivedSince, parseDate } from './calculations';
+import {
+    DEFAULT_MAX_WIDTH,
+    WRAPPED_LINE_WIDTH,
+    WRAPPED_LINE_PADDING,
+} from './constants';
 
 /**
  * Parse event specifications from Event objects
@@ -141,15 +146,15 @@ export function parseGoalSpecs(
  * Wrap text for long labels (used in notes panel)
  * Ported from Python lines 509-520
  */
-export function wrapText(label: string, maxWidth: number = 80): string[] {
+export function wrapText(label: string, maxWidth: number = DEFAULT_MAX_WIDTH): string[] {
     if (label.length <= maxWidth) {
         return [label];
     }
 
     const firstChunk = label.substring(0, maxWidth);
     const remaining = label.substring(maxWidth);
-    const secondWidth = 60;
-    const padding = ' '.repeat(52);
+    const secondWidth = WRAPPED_LINE_WIDTH;
+    const padding = ' '.repeat(WRAPPED_LINE_PADDING);
 
     const lines = [firstChunk];
 
