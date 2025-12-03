@@ -23,10 +23,8 @@ Visualize your life in weeks with a beautiful, interactive life calendar. This p
 
 ### Manual Installation
 
-1. Download the latest `main.js`, `manifest.json`, and `styles.css` files from the repository
-2. Create folder: `<vault>/.obsidian/plugins/memento-mori/`
-3. Copy the files into this folder
-4. Reload Obsidian and enable the plugin in Settings → Community Plugins
+1. Copy `main.js`, `manifest.json`, and `styles.css` to `<vault>/.obsidian/plugins/memento-mori/`
+2. Reload Obsidian and enable the plugin in Settings → Community Plugins
 
 ## Quick Start
 
@@ -35,14 +33,6 @@ Visualize your life in weeks with a beautiful, interactive life calendar. This p
 3. **Add events/goals**: Use the settings panel to track important dates and projects
 
 ## Usage
-
-### Custom View Panel
-
-Open a dedicated panel to display your life calendar:
-- **Ribbon Icon**: Click the calendar-clock icon
-- **Command Palette**: `Ctrl/Cmd+P` → "Open Memento Mori view"
-
-The view can be placed in any pane (left sidebar, right sidebar, or main workspace).
 
 ### Code Block Rendering
 
@@ -108,8 +98,6 @@ events:
     notes: Optional additional details
 ```
 
-**Note**: The `id` field is auto-generated for code blocks and can be omitted.
-
 ### Goals
 
 Goals mark multi-week periods. In code blocks, use YAML format:
@@ -127,17 +115,7 @@ goals:
 
 **Note**: The `id` field is auto-generated for code blocks and can be omitted.
 
-## Code Block Examples
-
-### Simple Calendar
-
-````markdown
-```memento-mori
-birthdate: 1990-01-01
-```
-````
-
-### With Events
+## Code Block Example
 
 ````markdown
 ```memento-mori
@@ -164,27 +142,6 @@ The concept of "memento mori" (Latin for "remember you must die") is an ancient 
 - **Stay motivated**: Each week is precious and visible
 - **Track progress**: Mark achievements and ongoing projects
 - **Live intentionally**: Focus on what truly matters
-
-## Development
-
-### Building from Source
-
-```bash
-# Clone the repository
-git clone https://github.com/dadaev732/memento-mori.git
-cd memento-mori
-
-# Install dependencies
-npm install
-
-# Build for production
-npm run build
-
-# Or run in development mode with watch
-npm run dev
-```
-
-The build outputs `main.js` and `styles.css` to the project root. Copy these files to your vault's plugin folder for testing.
 
 ## Support
 
