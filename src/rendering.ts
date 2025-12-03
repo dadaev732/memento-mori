@@ -212,7 +212,6 @@ export function generateMementoMoriSVG(
     const svg = document.createElementNS(SVG_NS, 'svg');
     svg.setAttribute('viewBox', `0 0 ${dims.totalWidth} ${actualContentHeight}`);
     svg.setAttribute('width', '100%');
-    svg.setAttribute('height', 'auto');
     svg.classList.add('memento-mori-calendar');
 
     // Background
