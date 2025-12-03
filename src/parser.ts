@@ -48,7 +48,7 @@ export function parseEventSpecs(
         if (weekIdx >= 0 && weekIdx < totalWeeks) {
             events.push({
                 date: dateVal,
-                label: event.title || (event as any).description || '',
+                label: event.title || '',
                 weekIndex: weekIdx,
             });
             weeks.add(weekIdx);
@@ -131,7 +131,7 @@ export function parseGoalSpecs(
         goals.push({
             startDate: startDate,
             endDate: endDate,
-            label: goal.title || (goal as any).description || '',
+            label: goal.title || '',
             weekIndices: weekIndices,
         });
 

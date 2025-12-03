@@ -109,8 +109,6 @@ export default class MementoMoriPlugin extends Plugin {
     weeklyStatsCache: Map<number, WeekStats> | null = null;
 
     async onload() {
-        console.log('Loading Memento Mori plugin');
-
         // Load settings
         await this.loadSettings();
 
@@ -153,7 +151,7 @@ export default class MementoMoriPlugin extends Plugin {
     }
 
     async onunload() {
-        console.log('Unloading Memento Mori plugin');
+        // Cleanup if needed
     }
 
     /**
@@ -167,13 +165,11 @@ export default class MementoMoriPlugin extends Plugin {
         let migrationNeeded = false;
 
         if (this.settings.events.length > 0 && typeof this.settings.events[0] === 'string') {
-            console.log('Migrating events from string format to JSON format');
             this.settings.events = migrateEventsFromStrings(this.settings.events as any);
             migrationNeeded = true;
         }
 
         if (this.settings.goals.length > 0 && typeof this.settings.goals[0] === 'string') {
-            console.log('Migrating goals from string format to JSON format');
             this.settings.goals = migrateGoalsFromStrings(this.settings.goals as any);
             migrationNeeded = true;
         }
@@ -184,7 +180,6 @@ export default class MementoMoriPlugin extends Plugin {
                 (e: any) => !('title' in e) && 'description' in e
             );
             if (needsEventMigration) {
-                console.log('Migrating events to title+notes structure');
                 this.settings.events = migrateEventsToTitleNotes(this.settings.events);
                 migrationNeeded = true;
             }
@@ -196,7 +191,6 @@ export default class MementoMoriPlugin extends Plugin {
                 (g: any) => !('title' in g) && 'description' in g
             );
             if (needsGoalMigration) {
-                console.log('Migrating goals to title+notes structure');
                 this.settings.goals = migrateGoalsToTitleNotes(this.settings.goals);
                 migrationNeeded = true;
             }
@@ -322,8 +316,6 @@ export default class MementoMoriPlugin extends Plugin {
         const totalWeeks = this.settings.years * 52;
         const files = this.app.vault.getMarkdownFiles();
 
-        console.log(`Computing weekly stats for ${files.length} files...`);
-
         for (const file of files) {
             // Map file creation time to week index
             const creationDate = new Date(file.stat.ctime);
@@ -347,12 +339,10 @@ export default class MementoMoriPlugin extends Plugin {
                 const content = await this.app.vault.cachedRead(file);
                 stats.wordsWritten += this.countWords(content);
             } catch (e) {
-                console.warn(`Error reading file ${file.path}:`, e);
                 // Continue processing other files
             }
         }
 
-        console.log(`Weekly stats computed for ${statsMap.size} weeks`);
         return statsMap;
     }
 
