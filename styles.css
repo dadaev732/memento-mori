@@ -305,7 +305,7 @@
 
 /* For goals with two dates */
 .memento-mori-date-input-inline-small {
-    width: 100px;
+    width: 130px;
     padding: 6px 8px;
     font-size: 13px;
     border: 1px solid var(--background-modifier-border);
