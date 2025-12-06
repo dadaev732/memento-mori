@@ -31,11 +31,11 @@ export function weeksLivedSince(birthdate: Date, today: Date): number {
                 lastBirthday = new Date(year, 2, 1);
             }
         }
-    } catch (e) {
+    } catch (error) {
         if (birthdate.getMonth() === 1 && birthdate.getDate() === 29) {
             lastBirthday = new Date(year, 2, 1);
         } else {
-            throw e;
+            throw error;
         }
     }
 
@@ -105,11 +105,11 @@ export function getDateForWeekIndex(weekIndex: number, birthdate: Date): Date {
                 targetDate = new Date(year, 2, 1);
             }
         }
-    } catch (e) {
+    } catch (error) {
         if (birthdate.getMonth() === 1 && birthdate.getDate() === 29) {
             targetDate = new Date(year, 2, 1);
         } else {
-            throw e;
+            throw error;
         }
     }
 

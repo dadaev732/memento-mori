@@ -363,5 +363,5 @@ export function generateMementoMoriSVG(
         svg.appendChild(statsGroup);
     }
 
-    return svg as SVGSVGElement;
+    return svg;
 }

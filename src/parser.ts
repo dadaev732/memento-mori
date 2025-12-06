@@ -18,7 +18,7 @@ export function parseEventSpecs(
         let dateVal: Date;
         try {
             dateVal = parseDate(event.date);
-        } catch (e) {
+        } catch {
             console.warn(`Could not parse event date '${event.date}', expected YYYY-MM-DD.`);
             continue;
         }
@@ -61,7 +61,7 @@ export function parseGoalSpecs(
         try {
             startDate = parseDate(goal.startDate);
             endDate = parseDate(goal.endDate);
-        } catch (e) {
+        } catch {
             console.warn(
                 `Could not parse goal dates '${goal.startDate}' to '${goal.endDate}', expected YYYY-MM-DD.`
             );

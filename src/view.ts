@@ -87,7 +87,8 @@ export class MementoMoriView extends ItemView {
         }
     }
 
-    async onClose(): Promise<void> {
+    onClose(): Promise<void> {
         cleanupTooltip();
+        return Promise.resolve();
     }
 }

@@ -15,16 +15,19 @@ export default class MementoMoriPlugin extends Plugin {
     weeklyStatsCache: Map<number, WeekStats> | null = null;
 
     onload(): void {
-        this.loadSettings().then(() => {
-            if (this.settings.showWeeklyStats && this.settings.birthdate) {
-                return this.computeWeeklyStats();
-            }
-            return null;
-        }).then((stats) => {
-            if (stats) {
-                this.weeklyStatsCache = stats;
-            }
-        }).catch(console.error);
+        this.loadSettings()
+            .then(() => {
+                if (this.settings.showWeeklyStats && this.settings.birthdate) {
+                    return this.computeWeeklyStats();
+                }
+                return null;
+            })
+            .then((stats) => {
+                if (stats) {
+                    this.weeklyStatsCache = stats;
+                }
+            })
+            .catch(console.error);
 
         this.registerView(VIEW_TYPE_MEMENTO_MORI, (leaf) => new MementoMoriView(leaf, this));
 
@@ -61,7 +64,7 @@ export default class MementoMoriPlugin extends Plugin {
      * Load settings from data.json
      */
     async loadSettings() {
-        const loadedData = await this.loadData() as Partial<MementoMoriSettings> | null;
+        const loadedData = (await this.loadData()) as Partial<MementoMoriSettings> | null;
         this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData ?? {});
     }
 
@@ -159,7 +162,7 @@ export default class MementoMoriPlugin extends Plugin {
             try {
                 const content = await this.app.vault.cachedRead(file);
                 stats.wordsWritten += this.countWords(content);
-            } catch (_error) {
+            } catch {
                 // Continue processing other files - silently skip files that can't be read
             }
         }

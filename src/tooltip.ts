@@ -44,54 +44,58 @@ export function showTooltip(
 ): void {
     if (!tooltipElement) return;
 
+    // Clear previous content
+    tooltipElement.empty();
+
     const age = Math.floor(weekIndex / 52);
     const weekInYear = weekIndex % 52;
     const percentOfLife = (((weekIndex + 1) / totalWeeks) * 100).toFixed(1);
 
-    let html = `
-        <div class="tooltip-week">Week ${weekIndex + 1}</div>
-        <div class="tooltip-details">Age ${age}, Week ${weekInYear + 1}/52</div>
-        <div class="tooltip-details">Life ${percentOfLife}%</div>
-    `;
+    // Create week info
+    tooltipElement.createDiv({ cls: 'tooltip-week', text: `Week ${weekIndex + 1}` });
+    tooltipElement.createDiv({ cls: 'tooltip-details', text: `Age ${age}, Week ${weekInYear + 1}/52` });
+    tooltipElement.createDiv({ cls: 'tooltip-details', text: `Life ${percentOfLife}%` });
 
     // Add weekly stats if available
     if (weeklyStats && weeklyStats.has(weekIndex)) {
         const stats = weeklyStats.get(weekIndex)!;
-        html += `
-            <div class="tooltip-divider"></div>
-            <div class="tooltip-stats">${stats.notesCreated} note${stats.notesCreated !== 1 ? 's' : ''} created</div>
-            <div class="tooltip-stats">${stats.wordsWritten.toLocaleString()} word${stats.wordsWritten !== 1 ? 's' : ''} written</div>
-        `;
+        tooltipElement.createDiv({ cls: 'tooltip-divider' });
+        tooltipElement.createDiv({
+            cls: 'tooltip-stats',
+            text: `${stats.notesCreated} note${stats.notesCreated !== 1 ? 's' : ''} created`
+        });
+        tooltipElement.createDiv({
+            cls: 'tooltip-stats',
+            text: `${stats.wordsWritten.toLocaleString()} word${stats.wordsWritten !== 1 ? 's' : ''} written`
+        });
     }
 
     // Add events if any for this week
     const weekEvents = parsedEvents?.filter((e) => e.weekIndex === weekIndex);
     if (weekEvents && weekEvents.length > 0) {
-        html += `<div class="tooltip-divider"></div>`;
-        html += `<div class="tooltip-section-header">Events</div>`;
-        html += `<ul class="tooltip-event-list">`;
+        tooltipElement.createDiv({ cls: 'tooltip-divider' });
+        tooltipElement.createDiv({ cls: 'tooltip-section-header', text: 'Events' });
+        const eventList = tooltipElement.createEl('ul', { cls: 'tooltip-event-list' });
         for (const event of weekEvents) {
-            html += `<li class="tooltip-event">${event.label}</li>`;
+            eventList.createEl('li', { cls: 'tooltip-event', text: event.label });
         }
-        html += `</ul>`;
     }
 
     // Add goals if any for this week
     const weekGoals = parsedGoals?.filter((g) => g.weekIndices.has(weekIndex));
     if (weekGoals && weekGoals.length > 0) {
-        html += `<div class="tooltip-divider"></div>`;
-        html += `<div class="tooltip-section-header">Goals</div>`;
-        html += `<ul class="tooltip-goal-list">`;
+        tooltipElement.createDiv({ cls: 'tooltip-divider' });
+        tooltipElement.createDiv({ cls: 'tooltip-section-header', text: 'Goals' });
+        const goalList = tooltipElement.createEl('ul', { cls: 'tooltip-goal-list' });
         for (const goal of weekGoals) {
             const totalWeeks = goal.weekIndices.size;
             const weeksArray = Array.from(goal.weekIndices).sort((a, b) => a - b);
             const currentWeekNum = weeksArray.indexOf(weekIndex) + 1;
-            html += `<li class="tooltip-goal">${goal.label} <span class="goal-progress">(${currentWeekNum}/${totalWeeks})</span></li>`;
+            const goalItem = goalList.createEl('li', { cls: 'tooltip-goal' });
+            goalItem.appendText(goal.label + ' ');
+            goalItem.createSpan({ cls: 'goal-progress', text: `(${currentWeekNum}/${totalWeeks})` });
         }
-        html += `</ul>`;
     }
-
-    tooltipElement.innerHTML = html;
 
     // Position tooltip near cursor with offset
     const offset = 10;

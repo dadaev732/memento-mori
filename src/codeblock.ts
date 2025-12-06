@@ -11,7 +11,7 @@ export function parseCodeBlockConfig(
     source: string,
     defaultSettings: MementoMoriSettings
 ): RenderConfig {
-    const config: any = { ...defaultSettings };
+    const config: Partial<MementoMoriSettings> = { ...defaultSettings };
 
     try {
         const parsed = parseYaml(source);
@@ -23,9 +23,9 @@ export function parseCodeBlockConfig(
                 config.events = config.events.map(
                     (event: Event | Omit<Event, 'id'>): Event => {
                         if (!('id' in event) || !event.id) {
-                            return { id: generateId(), ...event } as Event;
+                            return { id: generateId(), ...event };
                         }
-                        return event as Event;
+                        return event;
                     }
                 );
             }
@@ -33,9 +33,9 @@ export function parseCodeBlockConfig(
             if (config.goals && Array.isArray(config.goals)) {
                 config.goals = config.goals.map((goal: Goal | Omit<Goal, 'id'>): Goal => {
                     if (!('id' in goal) || !goal.id) {
-                        return { id: generateId(), ...goal } as Goal;
+                        return { id: generateId(), ...goal };
                     }
-                    return goal as Goal;
+                    return goal;
                 });
             }
         }
@@ -43,10 +43,14 @@ export function parseCodeBlockConfig(
         console.warn('Error parsing code block config:', error);
     }
 
+    if (!config.birthdate) {
+        throw new Error('Birthdate is required');
+    }
+
     let birthdateObj: Date;
     try {
         birthdateObj = parseDate(config.birthdate);
-    } catch (e) {
+    } catch {
         throw new Error(`Invalid birthdate: ${config.birthdate}. Expected YYYY-MM-DD format.`);
     }
 
@@ -55,7 +59,7 @@ export function parseCodeBlockConfig(
     const weeksLived = weeksLivedSince(birthdateObj, today);
 
     const renderConfig: RenderConfig = {
-        ...config,
+        ...(config as MementoMoriSettings),
         birthdateObj,
         today,
         weeksLived,

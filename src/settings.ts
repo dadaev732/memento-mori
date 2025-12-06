@@ -13,9 +13,7 @@ export class MementoMoriSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        new Setting(containerEl).setName('Memento mori settings').setHeading();
-
-        new Setting(containerEl).setName('Core settings').setHeading();
+        new Setting(containerEl).setName('Core').setHeading();
 
         new Setting(containerEl)
             .setName('Birthdate')
