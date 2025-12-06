@@ -19,7 +19,7 @@ export class MementoMoriView extends ItemView {
     }
 
     getDisplayText(): string {
-        return 'Memento Mori';
+        return 'Memento mori';
     }
 
     getIcon(): string {

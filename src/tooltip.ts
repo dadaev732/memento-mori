@@ -53,7 +53,10 @@ export function showTooltip(
 
     // Create week info
     tooltipElement.createDiv({ cls: 'tooltip-week', text: `Week ${weekIndex + 1}` });
-    tooltipElement.createDiv({ cls: 'tooltip-details', text: `Age ${age}, Week ${weekInYear + 1}/52` });
+    tooltipElement.createDiv({
+        cls: 'tooltip-details',
+        text: `Age ${age}, Week ${weekInYear + 1}/52`,
+    });
     tooltipElement.createDiv({ cls: 'tooltip-details', text: `Life ${percentOfLife}%` });
 
     // Add weekly stats if available
@@ -62,11 +65,11 @@ export function showTooltip(
         tooltipElement.createDiv({ cls: 'tooltip-divider' });
         tooltipElement.createDiv({
             cls: 'tooltip-stats',
-            text: `${stats.notesCreated} note${stats.notesCreated !== 1 ? 's' : ''} created`
+            text: `${stats.notesCreated} note${stats.notesCreated !== 1 ? 's' : ''} created`,
         });
         tooltipElement.createDiv({
             cls: 'tooltip-stats',
-            text: `${stats.wordsWritten.toLocaleString()} word${stats.wordsWritten !== 1 ? 's' : ''} written`
+            text: `${stats.wordsWritten.toLocaleString()} word${stats.wordsWritten !== 1 ? 's' : ''} written`,
         });
     }
 
@@ -93,7 +96,10 @@ export function showTooltip(
             const currentWeekNum = weeksArray.indexOf(weekIndex) + 1;
             const goalItem = goalList.createEl('li', { cls: 'tooltip-goal' });
             goalItem.appendText(goal.label + ' ');
-            goalItem.createSpan({ cls: 'goal-progress', text: `(${currentWeekNum}/${totalWeeks})` });
+            goalItem.createSpan({
+                cls: 'goal-progress',
+                text: `(${currentWeekNum}/${totalWeeks})`,
+            });
         }
     }
 

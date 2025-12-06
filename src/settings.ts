@@ -250,7 +250,7 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
             if (this.plugin.settings.events.length === 0) {
                 eventsContainer.createEl('p', {
-                    text: 'No events added yet. Click "Add Event" to get started.',
+                    text: 'No events added yet. Click "add event" to get started.',
                     cls: 'memento-mori-empty-state',
                 });
             }
@@ -421,7 +421,7 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
             if (this.plugin.settings.goals.length === 0) {
                 goalsContainer.createEl('p', {
-                    text: 'No goals added yet. Click "Add Goal" to get started.',
+                    text: 'No goals added yet. Click "add goal" to get started.',
                     cls: 'memento-mori-empty-state',
                 });
             }
