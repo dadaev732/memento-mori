@@ -17,7 +17,7 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Birthdate')
-            .setDesc('Your date of birth in YYYY-MM-DD format')
+            .setDesc('your date of birth in YYYY-MM-DD format')
             .addText((text) =>
                 text
                     .setPlaceholder('1990-01-01')
@@ -144,7 +144,7 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Show start/end labels')
-            .setDesc('Show "Start" and "Fin." labels on first and last rows')
+            .setDesc('show "Start" and "Fin." labels on first and last rows')
             .addToggle((toggle) =>
                 toggle.setValue(this.plugin.settings.showStartEndLabels).onChange((value) => {
                     this.plugin.settings.showStartEndLabels = value;
