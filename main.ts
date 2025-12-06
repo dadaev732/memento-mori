@@ -55,14 +55,14 @@ export default class MementoMoriPlugin extends Plugin {
         this.addSettingTab(new MementoMoriSettingTab(this.app, this));
     }
 
-    async onunload() {}
+    onunload() {}
 
     /**
      * Load settings from data.json
      */
     async loadSettings() {
-        const loadedData = await this.loadData();
-        this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData);
+        const loadedData = await this.loadData() as Partial<MementoMoriSettings> | null;
+        this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData ?? {});
     }
 
     /**
@@ -89,7 +89,7 @@ export default class MementoMoriPlugin extends Plugin {
 
         if (leaves.length > 0) {
             // View already exists, just reveal it
-            workspace.revealLeaf(leaves[0]);
+            await workspace.revealLeaf(leaves[0]);
         } else {
             // Create new leaf explicitly in left sidebar
             await workspace.ensureSideLeaf(VIEW_TYPE_MEMENTO_MORI, 'left', {
@@ -108,7 +108,7 @@ export default class MementoMoriPlugin extends Plugin {
 
         for (const leaf of leaves) {
             if (leaf.view instanceof MementoMoriView) {
-                leaf.view.onOpen(); // Re-render
+                void leaf.view.onOpen(); // Re-render
             }
         }
     }

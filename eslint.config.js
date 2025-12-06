@@ -4,7 +4,7 @@ import obsidianmd from "eslint-plugin-obsidianmd";
 
 export default [
 	js.configs.recommended,
-	...tseslint.configs.recommended,
+	...tseslint.configs.recommendedTypeChecked,
 	{
 		files: ["**/*.ts"],
 		languageOptions: {
@@ -22,7 +22,7 @@ export default [
 
 			// Custom rules
 			"no-console": ["warn", { allow: ["warn", "error"] }],
-			"@typescript-eslint/no-explicit-any": "warn",
+			"@typescript-eslint/no-explicit-any": "error",
 			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/no-unused-vars": [
 				"error",
