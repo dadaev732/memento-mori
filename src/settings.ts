@@ -17,7 +17,7 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Birthdate')
-            .setDesc('Your date of birth in YYYY-MM-DD format')
+            .setDesc('Your date of birth in yyyy-mm-dd format')
             .addText((text) =>
                 text
                     .setPlaceholder('1990-01-01')
@@ -144,7 +144,7 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Show start/end labels')
-            .setDesc('Show "Start" and "Fin." labels on first and last rows')
+            .setDesc('Show "start" and "fin." labels on first and last rows')
             .addToggle((toggle) =>
                 toggle.setValue(this.plugin.settings.showStartEndLabels).onChange((value) => {
                     this.plugin.settings.showStartEndLabels = value;
@@ -173,10 +173,13 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
                     // Recompute stats if enabled
                     if (value && this.plugin.settings.birthdate) {
-                        this.plugin.computeWeeklyStats().then((stats) => {
-                            this.plugin.weeklyStatsCache = stats;
-                            return this.plugin.saveSettings();
-                        }).catch(console.error);
+                        this.plugin
+                            .computeWeeklyStats()
+                            .then((stats) => {
+                                this.plugin.weeklyStatsCache = stats;
+                                return this.plugin.saveSettings();
+                            })
+                            .catch(console.error);
                     } else {
                         // Clear cache if disabled
                         this.plugin.weeklyStatsCache = null;
@@ -373,9 +376,12 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                             title: '',
                             notes: '',
                         });
-                        this.plugin.saveSettings().then(() => {
-                            renderEvents();
-                        }).catch(console.error);
+                        this.plugin
+                            .saveSettings()
+                            .then(() => {
+                                renderEvents();
+                            })
+                            .catch(console.error);
                     }
                 });
 
@@ -383,9 +389,12 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
                 removeBtn.addEventListener('click', () => {
                     this.plugin.settings.events.splice(index, 1);
-                    this.plugin.saveSettings().then(() => {
-                        renderEvents();
-                    }).catch(console.error);
+                    this.plugin
+                        .saveSettings()
+                        .then(() => {
+                            renderEvents();
+                        })
+                        .catch(console.error);
                 });
             });
         };
@@ -403,9 +412,12 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                         title: '',
                         notes: '',
                     });
-                    this.plugin.saveSettings().then(() => {
-                        renderEvents();
-                    }).catch(console.error);
+                    this.plugin
+                        .saveSettings()
+                        .then(() => {
+                            renderEvents();
+                        })
+                        .catch(console.error);
                 })
         );
 
@@ -565,9 +577,12 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                             title: '',
                             notes: '',
                         });
-                        this.plugin.saveSettings().then(() => {
-                            renderGoals();
-                        }).catch(console.error);
+                        this.plugin
+                            .saveSettings()
+                            .then(() => {
+                                renderGoals();
+                            })
+                            .catch(console.error);
                     }
                 });
 
@@ -575,9 +590,12 @@ export class MementoMoriSettingTab extends PluginSettingTab {
 
                 removeBtn.addEventListener('click', () => {
                     this.plugin.settings.goals.splice(index, 1);
-                    this.plugin.saveSettings().then(() => {
-                        renderGoals();
-                    }).catch(console.error);
+                    this.plugin
+                        .saveSettings()
+                        .then(() => {
+                            renderGoals();
+                        })
+                        .catch(console.error);
                 });
             });
         };
@@ -596,9 +614,12 @@ export class MementoMoriSettingTab extends PluginSettingTab {
                         title: '',
                         notes: '',
                     });
-                    this.plugin.saveSettings().then(() => {
-                        renderGoals();
-                    }).catch(console.error);
+                    this.plugin
+                        .saveSettings()
+                        .then(() => {
+                            renderGoals();
+                        })
+                        .catch(console.error);
                 })
         );
     }
