@@ -21,6 +21,7 @@ export default defineConfig([
         rules: {
             // example: turn off a rule from the recommended set
             'obsidianmd/sample-names': 'off',
+            'obsidianmd/ui/sentence-case': 'warn',
         },
     },
 ]);
