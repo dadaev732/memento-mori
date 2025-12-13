@@ -62,6 +62,6 @@ Colors adapt to theme and can be customized.
 
 ---
 
-Inspired by [memento-mori](https://nor-git.pages.dev/memento-mori/) by [nor-nor](https://nor-blog.pages.dev/)
+Inspired by [memento-mori](https://nor-git.pages.dev/memento-mori/) by [nor](https://nor-blog.pages.dev/)
 
 Licensed under [MIT](LICENSE)
